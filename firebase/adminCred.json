@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "matriculaslaboratorios",
+  "private_key_id": "7372cbf387cceb5dfd3eca8d6856301a08e2a86c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC54PIZ/45UYI3y\n1uc94kvMb3IuDLEiqhQyuFgik5rRv/nNWGFvjAi47QS4r8eZU96K29ApyawClN5m\nHY2t2fvvgLuskmn2uQyQv2IKecTMKTwZzRjuE2iY6AA5sybBXd4410F1eGoFn/tM\naAt/84TCa2A4K2moCFENACxVXYhrEKlyZEjw6NbIC9S8qRiEhs6Q6moi0vSRZLg/\nm43ba5BbD+/SAh3Q0QQOOB6Nb3ay8IeJruFvYO+oW4rPqx+Uhi3TZPGnMzKNuwzH\nhyBN/xod/iF0U1byc6oWQNRp/1QNt7QrBfPUWmViPYigiZx7gFPSiw1wWB19BTqO\nguMRvMj5AgMBAAECggEAAs3owSkon8/EHHuPChE5tQgiaBzzaDM6MkizNbRV49+6\nWFWCxNDPSeDzjwjB4WeRRjWKRrMe9/wAffhorIyLH0IpMrGTzS/eB2oHw+Ix7KWb\nnUUJoP/kdlgbtsMj7MtqgJ+IwomyScrv2ud/8up84IUHstk+0xTrCh/sS05psjnL\nx6BOe14OROYeS92pCxyMpP8aNGEPAZT5j5R2Af/0iY5K0hPahnLsjUPeYH121Wy6\nSm+ERR7y8sIB9UlMtHJNSzS+kMMULlNm+yCFFvfMbDPkvJTmRtG+cmXHXEzvgGqy\nHSo6NZltAXSfTM42+HBcCPCwESfE0uRcW6y95Qa97QKBgQDprLAWypRgxWEtg8QG\nFhibY15r0opYWL3EvrBKcX46W209ayhaKqRDcbdacNpeJhEC+o/IMqYJ5qU0un1T\nx8VH9BcTZ1cO09aDLvVn87B54POBWx4WdVFSu9k4BC2Hs8TpNsSHUIpDpUW6jwgd\naEWPdW8v196O/Qb57KPEU/fKhQKBgQDLoz8Ch4q7ik0imSgnZcwvBf+s4+za+KQQ\n8NQRY5fildlcBfjfNbC7pJ1W0oJ/8zFHSK6tXUve6BuD5h6WVdiXSko84WJV+tu4\nQeXgGVlVm0TEWkoQ/IOPDCeXt36b6H5WvQTOXTM0FkJ/9cxhUzmb1LvOnol8NHjp\nkE3qsfQg5QKBgHllVGnSvnjzscOSg8Dhs9DuM7xyOZsiJxxSMIXMJlas7riMtf75\nzjKXnjinDlsBDa9tekr4PRhBsawOAlQHIa962I4lDq5OUU//klB54kG/IuId8yiZ\ntDD2FCgsy3aHZxH9eOYPanUwJGSCMCYO6KxZxvSlAiNowjoOvRmewcl9AoGBALxi\nZOQeKAWeyAT90tu/nMjTr9dtc6yO4JibclQz4krHfbFYBQfZT4oHm1a6n+dmP2xG\nnPHcoVexOeMne5xwBlLPcyYnCyWnUKSAsfxC9xXu8gsDzAky0TIAeJAuPH5W8qmj\na1LNfZTuEs71wQE4UM8MWkGnAGFa2ZCY4rv/rGzRAoGAA/sZIalv7qGlpXN8sHzb\nM0tog6WHzCfNOKDpzh4bpedFvUsFN4EPG/JD1EXDNZNmoRGRCzy5Nvpnb8bdKMOU\nlDyShtmIufFJbxxFNQzdWA79cMd55nXMYdyhMQ/ig3i5CucjxVZ/Dee6R6ARcVJU\n+NRcZ2+kqNyxgkfamFPyyjg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-8spx9@matriculaslaboratorios.iam.gserviceaccount.com",
+  "client_id": "104578039512671642264",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-8spx9%40matriculaslaboratorios.iam.gserviceaccount.com"
+}

@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -17,6 +17,7 @@ export const useAlumnos = () => {
     año: -1
   })
   const [loadingSaveAlumno, setLoadingSaveAlumno] = useState(false)
+  const [loadingDeleteAlumno, setLoadingDeleteAlumno] = useState(false)
 
   const handleInputChange = ({ target }) => {
     setFormData({
@@ -33,11 +34,21 @@ export const useAlumnos = () => {
     });
   };
 
-  const getAlumnosByAño = async (año) => {
-    const q = query(collection(db, "alumnos"), where("año", "==", año.toString()));
-    const docs = await getDocs(q);
-    return docs;
-  }
+  const deleteAlumno = async (id) => {
+    setLoadingDeleteAlumno(true);
+    await deleteDoc(doc(db, "alumnos", id)).then(() => {
+      toast.success("Alumno eliminado correctamente");
+      setLoadingDeleteAlumno(false);
+      router.push(`/admin/alumnos/${año}`);
+    });
+  };
 
-  return { ...formData, addAlumno, handleInputChange, loadingSaveAlumno, getAlumnosByAño };
+  return {
+		...formData,
+		addAlumno,
+		handleInputChange,
+		loadingSaveAlumno,
+		deleteAlumno,
+    loadingDeleteAlumno
+  };
 }
