@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -43,12 +43,23 @@ export const useAlumnos = () => {
     });
   };
 
+  const updateAlumno = async (id, alumno) => {
+    setLoadingSaveAlumno(true);
+    await updateDoc(doc(db, "alumnos",id), alumno).then(() => {
+      toast.success("Alumno actualizado correctamente");
+      setLoadingSaveAlumno(false);
+      router.push(`/admin/alumnos/${año}`);
+    });
+  };
+
   return {
 		...formData,
 		addAlumno,
 		handleInputChange,
 		loadingSaveAlumno,
 		deleteAlumno,
-    loadingDeleteAlumno
+		loadingDeleteAlumno,
+		setFormData,
+		updateAlumno,
   };
 }

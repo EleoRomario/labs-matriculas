@@ -2,18 +2,22 @@ import {
 	Breadcrumbs,
 	Button,
 	Dialog,
+	IconButton,
 	Popover,
 	PopoverContent,
 	PopoverHandler,
+	Tooltip,
 } from "@material-tailwind/react";
 import {
 	AddUser,
+	EditPencil,
 	HomeSimpleDoor,
 	Trash,
 	User,
 	WarningTriangleOutline,
 } from "iconoir-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
@@ -34,10 +38,12 @@ export default function Año({ año, alumnos }) {
 	const [open, setOpen] = useState(false);
 	const [idUser, setIdUser] = useState(null);
 
-  const {deleteAlumno, loadingDeleteAlumno} = useAlumnos();
+  const router = useRouter();
+
+	const { deleteAlumno, loadingDeleteAlumno } = useAlumnos();
 
 	const onDelete = async (id) => {
-    await deleteAlumno(id);
+		await deleteAlumno(id);
 	};
 
 	return (
@@ -124,16 +130,22 @@ export default function Año({ año, alumnos }) {
 										<div className="w-full">
 											<div className="text-gray-600 flex gap-2 hover:text-cyan-800">
 												<User />
-												{alumno.nombre}
+												{alumno.nombre} {alumno.apellido}
 											</div>
 										</div>
 									</PopoverHandler>
-									<PopoverContent>
+									<PopoverContent className="bg-cyan-100">
 										<p className="flex gap-2 capitalize text-cyan-800">
 											<span className="font-medium">
 												Nombre:
 											</span>
 											{alumno.nombre}
+										</p>
+										<p className="flex gap-2 capitalize text-cyan-800">
+											<span className="font-medium">
+												Apellido:
+											</span>
+											{alumno.apellido}
 										</p>
 										<p className="flex gap-2 capitalize text-cyan-800">
 											<span className="font-medium">
@@ -150,16 +162,42 @@ export default function Año({ año, alumnos }) {
 									</PopoverContent>
 								</Popover>
 							</div>
-							<Button
-								variant="outlined"
-								className="flex p-1 gap-1 font-thin items-center border-red-100 text-red-100 hover:bg-red-400 hover:border-red-400 hover:text-white"
-								onClick={() => {
-									setOpen(!open);
-									setIdUser(alumno.id);
-								}}
-							>
-								<Trash /> Eliminar
-							</Button>
+							<div className="flex gap-2">
+								<Tooltip
+									content="Editar alumno"
+									placement="top"
+									className="bg-light-blue-200"
+								>
+									<div>
+										<Link
+											href={`/admin/alumnos/${año}/${alumno.id}/editar`}
+										>
+											<IconButton
+												className="bg-white border shadow-none flex p-1 gap-1 font-thin items-center border-light-blue-100 text-light-blue-100 hover:bg-light-blue-400 hover:border-light-blue-400 hover:text-white focus:outline-none active:border-none"
+												as="a"
+											>
+												<EditPencil />
+											</IconButton>
+										</Link>
+									</div>
+								</Tooltip>
+								<Tooltip
+									content="Eliminar alumno"
+									placement="top"
+									className="bg-red-200"
+								>
+									<IconButton
+										variant="outlined"
+										className="flex p-1 gap-1 font-thin items-center border-red-100 text-red-100 hover:bg-red-400 hover:border-red-400 hover:text-white"
+										onClick={() => {
+											setOpen(!open);
+											setIdUser(alumno.id);
+										}}
+									>
+										<Trash />
+									</IconButton>
+								</Tooltip>
+							</div>
 						</div>
 					))}
 				</div>

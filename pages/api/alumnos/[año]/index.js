@@ -1,4 +1,4 @@
-import { firestore } from "../../../firebase/firebase-admin";
+import { firestore } from "../../../../firebase/firebase-admin";
 
 
 export default function handler(req, res) {

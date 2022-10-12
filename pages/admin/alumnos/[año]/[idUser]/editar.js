@@ -1,13 +1,13 @@
 import { Breadcrumbs, Button, Input } from "@material-tailwind/react";
 import { HomeSimpleDoor, SaveFloppyDisk } from "iconoir-react";
 import Link from "next/link";
-import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
-import { Loading } from "../../../../components/Loading/Loading";
-import { useAlumnos } from "../../../../hook/useAlumnos";
+import { useEffect } from "react";
+import { AdminLayout } from "../../../../../components/Layout/admin/AdminLayout";
+import { Loading } from "../../../../../components/Loading/Loading";
+import { useAlumnos } from "../../../../../hook/useAlumnos";
 
-export default function Nuevo({año}) {
-  
-  const añoString =
+export default function Editar({ año,alumno }) {
+	const añoString =
 		año === "1"
 			? "Primer año"
 			: año === "2"
@@ -18,29 +18,35 @@ export default function Nuevo({año}) {
 			? "Cuarto año"
 			: "Quinto año";
 
-  const {
+	const {
 		nombre,
 		apellido,
-    correo,
+		correo,
 		cui,
 		handleInputChange,
-		addAlumno,
+		updateAlumno,
 		loadingSaveAlumno,
-  } = useAlumnos();
+		setFormData,
+	} = useAlumnos();
 
-  const onSubmitAlumno = async (e) => {
-    e.preventDefault();
-    const alumno = {
-      nombre,
-      apellido,
-      correo,
-      cui,
-      año
-    }
-    await addAlumno(alumno);
-  }
+	const onSubmitAlumno = async (e) => {
+		e.preventDefault();
+		const upAlumno = {
+			nombre,
+			apellido,
+			correo,
+			cui,
+			año,
+		};
+		await updateAlumno(alumno.id, upAlumno);
+	};
 
-  return (
+	useEffect(()=> {
+		const {nombre,apellido,correo,cui} = alumno;
+		setFormData({nombre,apellido,correo,cui});
+	},[])
+
+	return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
@@ -54,10 +60,10 @@ export default function Nuevo({año}) {
 				<Link href={`/admin/alumnos/${año}`}>
 					<a className="opacity-60">{añoString}</a>
 				</Link>
-				<a>Alumno nuevo</a>
+				<a>Editar Alumno</a>
 			</Breadcrumbs>
 			<div className="w-full flex flex-col items-center gap-3 border border-gray-100 p-4 rounded">
-				<h1 className="font-medium">Datos Generales</h1>
+				<h1 className="font-medium">Editar Datos Generales</h1>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<form
 					onSubmit={onSubmitAlumno}
@@ -81,7 +87,7 @@ export default function Nuevo({año}) {
 						label="Correo"
 						name="correo"
 						required
-            type={"email"}
+						type={"email"}
 						value={correo}
 						onChange={handleInputChange}
 					/>
@@ -101,28 +107,32 @@ export default function Nuevo({año}) {
 						{!loadingSaveAlumno ? (
 							<>
 								<SaveFloppyDisk />
-								Guardar informacion{" "}
+								Actualizar informacion{" "}
 							</>
 						) : (
 							<>
 								<Loading />
-								Guardando...
+								Actualizando...
 							</>
 						)}
 					</Button>
 				</form>
 			</div>
 		</AdminLayout>
-  );
+	);
 }
 
 export const getServerSideProps = async (context) => {
-  const { params } = context;
-  const { año } = params;
+	const { params } = context;
+	const { año, idUser } = params;
 
-  return {
-    props: {
-      año,
-    },
-  };
-}
+	const res = await fetch(`http://localhost:3000/api/alumnos/${año}/${idUser}`);
+	const alumno = await res.json();
+
+	return {
+		props: {
+			año,
+			alumno,
+		},
+	};
+};
