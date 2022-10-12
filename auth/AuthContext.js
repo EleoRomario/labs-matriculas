@@ -22,18 +22,18 @@ export const AuthProvider = ({ children }) => {
 	const router = useRouter();
 
   useEffect(() => {
-    const userCurrent = Cookies.get("user") === undefined ? null : Cookies.get("user");
-    const alumnoCurrent = Cookies.get("alumno") === undefined ? null : Cookies.get("alumno");
-    setUser(userCurrent);
-    setAlumno(alumnoCurrent);
-  }, [user]);
+		const userCurrent = Cookies.get("user") === undefined ? null : JSON.parse(Cookies.get("user"));
+		const alumnoCurrent =	Cookies.get("alumno") === undefined ? null : JSON.parse(Cookies.get("alumno"));
+		setUser(userCurrent);
+		setAlumno(alumnoCurrent);
+  }, []);
 
 	const signInUser = (email, password) => {
 		setLoading(true);
 		signInWithEmailAndPassword(auth, email, password)
 			.then(() => {
 				setUser(auth.currentUser);
-				Cookies.set("user", user);
+				Cookies.set("user", JSON.stringify(user));
 			})
 			.catch(() => toast.error("Correo o contraseña incorrectos"))
 			.finally(() => setLoading(false));
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 				uid: doc.id,
 			};
 			if (doc.exists()) {
-        Cookies.set("alumno", alumno);
+        Cookies.set("alumno", JSON.stringify(alumno));				
 				setAlumno(alumno);
 				router.replace("/alumno");
 			}
@@ -67,6 +67,7 @@ export const AuthProvider = ({ children }) => {
 	const logoutAlumno = () => {
 		Cookies.remove("alumno");
 		setAlumno(null);
+		router.replace("/");
 	};
 
 	const contextValue = {

@@ -7,6 +7,8 @@ export default function Home() {
 	const { user, logoutUser, alumno } = useAuthContext();
 
 	useEffect(() => {
+		console.log("🚀 ~ file: index.js ~ line 12 ~ useEffect ~ user", user)
+		console.log("🚀 ~ file: index.js ~ line 11 ~ useEffect ~ alumno", alumno)
 		if (user === null && alumno === null) {
       router.replace("/auth/alumno");
     }else{
