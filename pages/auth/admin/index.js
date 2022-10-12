@@ -48,6 +48,7 @@ export default function Login() {
 					<Input
 						label="Correo"
 						size="lg"
+						type={"email"}
 						required
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}

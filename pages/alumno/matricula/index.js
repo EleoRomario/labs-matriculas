@@ -1,11 +1,11 @@
 import { Button } from "@material-tailwind/react";
 import { NavArrowLeft } from "iconoir-react";
 import Link from "next/link";
-import { CardLayout } from "../../../components/Layout/alumno/CardLayout";
+import { AlumnoLayout } from "../../../components/Layout/alumno/AlumnoLayout";
 
 export default function Matricula() {
 	return (
-		<CardLayout>
+		<AlumnoLayout>
     <Link href="/alumno">
 			<Button
       as="a"
@@ -15,6 +15,6 @@ export default function Matricula() {
 				<NavArrowLeft /> Atras
 			</Button>
       </Link>
-		</CardLayout>
+		</AlumnoLayout>
 	);
 }

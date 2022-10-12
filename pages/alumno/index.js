@@ -2,13 +2,13 @@ import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import { LogOut, PasteClipboard, User, UserScan } from "iconoir-react";
 import Link from "next/link";
 import { useAuthContext } from "../../auth/AuthContext";
-import { CardLayout } from "../../components/Layout/alumno/CardLayout";
+import { AlumnoLayout } from "../../components/Layout/alumno/AlumnoLayout";
 
 export default function Alumno() {
 	const { alumno, logoutAlumno } = useAuthContext();
 
 	return (
-		<CardLayout>
+		<AlumnoLayout>
 			<Link href="/alumno/matricula">
 				<Button
 					as="a"
@@ -24,6 +24,6 @@ export default function Alumno() {
 					Laboratorios Matriculados
 				</p>
 			</div>
-		</CardLayout>
+		</AlumnoLayout>
 	);
 }

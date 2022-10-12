@@ -33,7 +33,8 @@ export const AuthProvider = ({ children }) => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then(() => {
 				setUser(auth.currentUser);
-				Cookies.set("user", JSON.stringify(user));
+				Cookies.set("user", JSON.stringify(auth.currentUser));
+				router.replace("/admin");
 			})
 			.catch(() => toast.error("Correo o contraseña incorrectos"))
 			.finally(() => setLoading(false));
