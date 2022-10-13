@@ -65,6 +65,27 @@ export const Grupo = ({
 				<Option value="C">C</Option>
 				<Option value="D">D</Option>
 				<Option value="E">E</Option>
+				<Option value="F">F</Option>
+				<Option value="G">G</Option>
+				<Option value="H">H</Option>
+				<Option value="I">I</Option>
+				<Option value="J">J</Option>
+				<Option value="K">K</Option>
+				<Option value="L">L</Option>
+				<Option value="M">M</Option>
+				<Option value="N">N</Option>
+				<Option value="O">O</Option>
+				<Option value="P">P</Option>
+				<Option value="Q">Q</Option>
+				<Option value="R">R</Option>
+				<Option value="S">S</Option>
+				<Option value="T">T</Option>
+				<Option value="U">U</Option>
+				<Option value="V">V</Option>
+				<Option value="W">W</Option>
+				<Option value="X">X</Option>
+				<Option value="Y">Y</Option>
+				<Option value="Z">Z</Option>
 			</Select>
 			<Input
 				label="Docente"
