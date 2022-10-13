@@ -1,4 +1,7 @@
 import {
+  Accordion,
+	AccordionBody,
+	AccordionHeader,
 	Breadcrumbs,
 	Button,
 	Dialog,
@@ -10,6 +13,9 @@ import {
 } from "@material-tailwind/react";
 import {
 	AddUser,
+	Book,
+	BookmarkBook,
+	ClockOutline,
 	EditPencil,
 	HomeSimpleDoor,
 	Trash,
@@ -21,9 +27,9 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
-import { useAlumnos } from "../../../../hook/useAlumnos";
+import { useCursos } from "../../../../hook/useCursos";
 
-export default function Año({ año, alumnos }) {
+export default function Año({ año, cursos }) {
 	const añoString =
 		año === "1"
 			? "Primer año"
@@ -36,14 +42,20 @@ export default function Año({ año, alumnos }) {
 			: "Quinto año";
 
 	const [open, setOpen] = useState(false);
-	const [idUser, setIdUser] = useState(null);
+	const [idUser, setIdCurso] = useState(null);
 
-  const router = useRouter();
+	const router = useRouter();
 
-	const { deleteAlumno, loadingDeleteAlumno } = useAlumnos();
+	const { deleteCurso, loadingDeleteCurso } = useCursos();
 
 	const onDelete = async (id) => {
-		await deleteAlumno(id);
+		await deleteCurso(id);
+	};
+
+	const [openGrupo, setOpenGrupo] = useState(0);
+
+	const handleOpenGrupo = (value) => {
+		setOpenGrupo(openGrupo === value ? 0 : value);
 	};
 
 	return (
@@ -52,7 +64,7 @@ export default function Año({ año, alumnos }) {
 				open={open}
 				handler={() => {
 					setOpen(!open);
-					setIdUser(null);
+					setIdCurso(null);
 				}}
 				animate={{
 					mount: { scale: 1, y: 0 },
@@ -62,7 +74,7 @@ export default function Año({ año, alumnos }) {
 			>
 				<div className="flex gap-2 flex-row items-center">
 					<WarningTriangleOutline color="red" className="" />
-					<p>¿Estás seguro de eliminar este alumno?</p>
+					<p>¿Estás seguro de eliminar este curso?</p>
 				</div>
 				<div className="flex justify-end gap-2 mt-4">
 					<Button
@@ -71,7 +83,7 @@ export default function Año({ año, alumnos }) {
 						size="sm"
 						onClick={() => {
 							setOpen(!open);
-							setIdUser(null);
+							setIdCurso(null);
 						}}
 					>
 						Cancelar
@@ -82,7 +94,7 @@ export default function Año({ año, alumnos }) {
 						onClick={() => {
 							onDelete(idUser);
 							setOpen(!open);
-							setIdUser(null);
+							setIdCurso(null);
 						}}
 					>
 						Eliminar
@@ -95,31 +107,31 @@ export default function Año({ año, alumnos }) {
 						<HomeSimpleDoor />{" "}
 					</a>
 				</Link>
-				<Link href="/admin/alumnos">
-					<a className="opacity-60">Alumnos </a>
+				<Link href="/admin/cursos">
+					<a className="opacity-60">Cursos </a>
 				</Link>
 				<a>{añoString} </a>
 			</Breadcrumbs>
 			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded">
 				<div className="w-full flex justify-between items-center">
-					<p>Alumnos del {añoString}</p>
-					<Link href={`/admin/alumnos/${año}/nuevo`}>
+					<p>Cursos del {añoString}</p>
+					<Link href={`/admin/cursos/${año}/nuevo`}>
 						<Button
 							as="a"
 							variant="outlined"
 							className="flex gap-2"
 						>
-							<AddUser />
-							Agregar nuevo alumno
+							<BookmarkBook />
+							Agregar nuevo curso
 						</Button>
 					</Link>
 				</div>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<div className="w-full flex flex-col gap-3">
-					{alumnos.legth > 0 ? (
-						alumnos.map((alumno) => (
+					{cursos.length > 0 ? (
+						cursos.map((curso) => (
 							<div
-								key={alumno.id}
+								key={curso.id}
 								className="border border-gray-100 py-2 px-4 rounded cursor-pointer hover:bg-cyan-50 capitalize flex justify-between items-center"
 							>
 								{" "}
@@ -128,49 +140,110 @@ export default function Año({ año, alumnos }) {
 										<PopoverHandler>
 											<div className="w-full">
 												<div className="text-gray-600 flex gap-2 hover:text-cyan-800">
-													<User />
-													{alumno.nombre}{" "}
-													{alumno.apellido}
+													<Book />
+													{curso.nombre}
 												</div>
 											</div>
 										</PopoverHandler>
-										<PopoverContent className="bg-cyan-100">
+										<PopoverContent className="bg-cyan-100 flex flex-col gap-2">
 											<p className="flex gap-2 capitalize text-cyan-800">
 												<span className="font-medium">
-													Nombre:
+													Curso:
 												</span>
-												{alumno.nombre}
+												{curso.nombre}
 											</p>
-											<p className="flex gap-2 capitalize text-cyan-800">
-												<span className="font-medium">
-													Apellido:
-												</span>
-												{alumno.apellido}
-											</p>
-											<p className="flex gap-2 capitalize text-cyan-800">
-												<span className="font-medium">
-													CUI:
-												</span>
-												{alumno.cui}
-											</p>
-											<p className="flex gap-2 text-cyan-800">
-												<span className="font-medium">
-													Email:
-												</span>
-												{alumno.correo}
-											</p>
+											<div className="flex flex-col gap-2 capitalize text-cyan-800 bg-cyan-200 p-2 rounded">
+												<h1 className="font-medium">
+													Grupos
+												</h1>
+												<div>
+													{curso.grupos.map(
+														(
+															{
+																horario,
+																capacidad,
+																docente,
+																nombre,
+															},
+															index
+														) => (
+															<Accordion
+																open={
+																	openGrupo ===
+																	index + 1
+																}
+																key={index}
+																className="flex gap-2 border border-cyan-100 rounded p-1 flex-col"
+															>
+																<AccordionHeader
+																	onClick={() =>
+																		handleOpenGrupo(
+																			index +
+																				1
+																		)
+																	}
+																	className="text-xs p-1"
+																>
+																	<span className="font-medium ">
+																		Grupo:{" "}
+																	</span>
+																	{nombre}
+																</AccordionHeader>
+																<AccordionBody>
+																	<div>
+																		<span className="font-medium">
+																			Docente:{" "}
+																		</span>
+																		{
+																			docente
+																		}
+																	</div>
+																	<div>
+																		<span className="font-medium">
+																			Capacidad:{" "}
+																		</span>
+																		{
+																			capacidad
+																		}
+																	</div>
+																	<div>
+																		<span className="font-medium">
+																			Dia:{" "}
+																		</span>
+																		{
+																			horario.dia
+																		}
+																	</div>
+																	<div className="flex gap-2">
+																		<span className="font-medium">
+																			<ClockOutline />
+																		</span>
+																		{
+																			horario.horaInicio
+																		}{" "}
+																		-{" "}
+																		{
+																			horario.horaFin
+																		}
+																	</div>
+																</AccordionBody>
+															</Accordion>
+														)
+													)}
+												</div>
+											</div>
 										</PopoverContent>
 									</Popover>
 								</div>
 								<div className="flex gap-2">
 									<Tooltip
-										content="Editar alumno"
+										content="Editar curso"
 										placement="top"
 										className="bg-light-blue-200"
 									>
 										<div>
 											<Link
-												href={`/admin/alumnos/${año}/${alumno.id}/editar`}
+												href={`/admin/cursos/${año}/${curso.id}/editar`}
 											>
 												<IconButton
 													className="bg-white border shadow-none flex p-1 gap-1 font-thin items-center border-light-blue-100 text-light-blue-100 hover:bg-light-blue-400 hover:border-light-blue-400 hover:text-white focus:outline-none active:border-none"
@@ -182,7 +255,7 @@ export default function Año({ año, alumnos }) {
 										</div>
 									</Tooltip>
 									<Tooltip
-										content="Eliminar alumno"
+										content="Eliminar curso"
 										placement="top"
 										className="bg-red-200"
 									>
@@ -191,7 +264,7 @@ export default function Año({ año, alumnos }) {
 											className="flex p-1 gap-1 font-thin items-center border-red-100 text-red-100 hover:bg-red-400 hover:border-red-400 hover:text-white"
 											onClick={() => {
 												setOpen(!open);
-												setIdUser(alumno.id);
+												setIdCurso(curso.id);
 											}}
 										>
 											<Trash />
@@ -202,7 +275,7 @@ export default function Año({ año, alumnos }) {
 						))
 					) : (
 						<div className="text-center text-gray-500">
-							<p>No hay alumnos registrados en este año</p>
+							<p>No hay cursos registrados en este año</p>
 						</div>
 					)}
 				</div>
@@ -215,13 +288,13 @@ export const getServerSideProps = async (context) => {
 	const { params } = context;
 	const { año } = params;
 
-	const res = await fetch(`http://localhost:3000/api/alumnos/${año}`);
-	const alumnos = await res.json();
+	const res = await fetch(`http://localhost:3000/api/cursos/${año}`);
+	const cursos = await res.json();
 
 	return {
 		props: {
 			año,
-			alumnos,
+			cursos,
 		},
 	};
 };
