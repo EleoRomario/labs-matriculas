@@ -32,7 +32,7 @@ export const AdminLayout = ({ children }) => {
 					</Tooltip>
 				</div>
 			</div>
-			<div className="flex h-[68vh] flex-col gap-3 items-start bg-white m-8 rounded-lg p-5 relative overflow-y-scroll">
+			<div className="flex h-[68vh] flex-col gap-3 items-start bg-white m-8 rounded-lg p-5 relative">
 				{children}
 			</div>
 		</div>

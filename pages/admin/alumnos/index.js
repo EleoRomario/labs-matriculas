@@ -14,7 +14,7 @@ export default function Alumnos() {
 				</Link>
 				<a>Alumnos </a>
 			</Breadcrumbs>
-			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded">
+			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded overflow-y-scroll">
 				<Link href="/admin/alumnos/1">
 					<a className="flex flex-row gap-2 items-center text-lime-800 hover:text-lime-900 p-2 border border-l-4 rounded bg-lime-50 cursor-pointer border-lime-100 hover:bg-lime-100 hover:border-lime-200">
 						<Group />

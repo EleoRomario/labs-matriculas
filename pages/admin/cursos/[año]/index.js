@@ -112,7 +112,7 @@ export default function Año({ año, cursos }) {
 				</Link>
 				<a>{añoString} </a>
 			</Breadcrumbs>
-			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded">
+			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded overflow-y-scroll">
 				<div className="w-full flex justify-between items-center">
 					<p>Cursos del {añoString}</p>
 					<Link href={`/admin/cursos/${año}/nuevo`}>
