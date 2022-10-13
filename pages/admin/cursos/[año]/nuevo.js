@@ -69,7 +69,6 @@ export default function Nuevo({ año }) {
     });
     setCardGrupos(newCardGrupos);
   }
-
   
 	const onSubmitCurso = async (e) => {
 		e.preventDefault();
