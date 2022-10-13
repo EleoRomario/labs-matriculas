@@ -25,18 +25,18 @@ export default function Nuevo({ año }) {
 		addCurso,
 		loadingSaveCurso,
 	} = useCursos();
-
+		
 	const [cardGrupos, setCardGrupos] = useState([
-    {
-      nombre: "",
+		{
+			nombre: "",
       docente: "",
       capacidad: "",
-      horario: {
-        dia: "",
-        horaInicio: "",
-        horaFin: "",
-      }
-    }
+      horario: [{
+				dia: "",
+				horaInicio: "",
+				horaFin: "",
+			}],
+		}
   ]);
 
   const handleChange = (index, e) => {
@@ -49,11 +49,6 @@ export default function Nuevo({ año }) {
     data[index][name] = e;
     setCardGrupos(data);
   }
-  const handleHorarioChange = (index,name, e) => {
-    const data = [...cardGrupos];
-    data[index].horario[name] = e;
-    setCardGrupos(data);
-  }
 
   const addGrupo = () => {
     const newCardGrupos = [...cardGrupos];
@@ -61,22 +56,22 @@ export default function Nuevo({ año }) {
       nombre: "",
       docente: "",
       capacidad: "",
-      horario: {
-        dia: "",
-        horaInicio: "",
-        horaFin: "",
-      }
+      horario: [{
+				dia: "",
+				horaInicio: "",
+				horaFin: "",
+			}],	
     });
     setCardGrupos(newCardGrupos);
   }
-  
+
 	const onSubmitCurso = async (e) => {
 		e.preventDefault();
 		const curso = {
 			nombre,
       año,
       grupos: cardGrupos,
-		};
+		};		
 		await addCurso(curso);
 	};
 
@@ -134,9 +129,6 @@ export default function Nuevo({ año }) {
 										setCardGrupos={setCardGrupos}
 										handleChange={handleChange}
 										handleSelectChange={handleSelectChange}
-										handleHorarioChange={
-											handleHorarioChange
-										}
 									/>
 								);
 							})}

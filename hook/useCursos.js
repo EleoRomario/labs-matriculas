@@ -23,12 +23,14 @@ export const useCursos = () => {
 			{
 				grupo: "",
 				docente: "",
-				horario: {
-					dia: "",
-					horaInicio: "",
-					horaFin: "",
-				}
-			}
+				horario: [
+					{
+						dia: "",
+						horaInicio: "",
+						horaFin: "",
+					},
+				],
+			},
 		],
 		año: -1,
 	});
