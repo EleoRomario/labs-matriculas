@@ -1,35 +1,34 @@
-import { Breadcrumbs, Button, Input } from "@material-tailwind/react";
-import { HomeSimpleDoor, SaveFloppyDisk } from "iconoir-react";
-import Link from "next/link";
-import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
-import { Loading } from "../../../../components/Loading/Loading";
-import { useAlumnos } from "../../../../hook/useAlumnos";
+import { Breadcrumbs, Button, Input } from '@material-tailwind/react'
+import { HomeSimpleDoor, SaveFloppyDisk } from 'iconoir-react'
+import Link from 'next/link'
+import { AdminLayout } from '../../../../components/Layout/admin/AdminLayout'
+import { Loading } from '../../../../components/Loading/Loading'
+import { useAlumnos } from '../../../../hook/useAlumnos'
 
-export default function Nuevo({año}) {
-  
+export default function Nuevo ({ año }) {
   const añoString =
-		año === "1"
-			? "Primer año"
-			: año === "2"
-			? "Segundo año"
-			: año === "3"
-			? "Tercer año"
-			: año === "4"
-			? "Cuarto año"
-			: "Quinto año";
+		año === '1'
+		  ? 'Primer año'
+		  : año === '2'
+		    ? 'Segundo año'
+		    : año === '3'
+		      ? 'Tercer año'
+		      : año === '4'
+		        ? 'Cuarto año'
+		        : 'Quinto año'
 
   const {
-		nombre,
-		apellido,
+    nombre,
+    apellido,
     correo,
-		cui,
-		handleInputChange,
-		addAlumno,
-		loadingSaveAlumno,
-  } = useAlumnos();
+    cui,
+    handleInputChange,
+    addAlumno,
+    loadingSaveAlumno
+  } = useAlumnos()
 
   const onSubmitAlumno = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const alumno = {
       nombre,
       apellido,
@@ -37,7 +36,7 @@ export default function Nuevo({año}) {
       cui,
       año
     }
-    await addAlumno(alumno);
+    await addAlumno(alumno)
   }
 
   return (
@@ -45,7 +44,7 @@ export default function Nuevo({año}) {
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<Link href="/admin/alumnos">
@@ -81,13 +80,13 @@ export default function Nuevo({año}) {
 						label="Correo"
 						name="correo"
 						required
-            type={"email"}
+            type={'email'}
 						value={correo}
 						onChange={handleInputChange}
 					/>
 					<Input
 						label="CUI"
-						type={"number"}
+						type={'number'}
 						name="cui"
 						required
 						value={cui}
@@ -98,31 +97,33 @@ export default function Nuevo({año}) {
 						type="submit"
 						disabled={loadingSaveAlumno}
 					>
-						{!loadingSaveAlumno ? (
+						{!loadingSaveAlumno
+						  ? (
 							<>
 								<SaveFloppyDisk />
-								Guardar informacion{" "}
+								Guardar informacion{' '}
 							</>
-						) : (
+						    )
+						  : (
 							<>
 								<Loading />
 								Guardando...
 							</>
-						)}
+						    )}
 					</Button>
 				</form>
 			</div>
 		</AdminLayout>
-  );
+  )
 }
 
 export const getServerSideProps = async (context) => {
-  const { params } = context;
-  const { año } = params;
+  const { params } = context
+  const { año } = params
 
   return {
     props: {
-      año,
-    },
-  };
+      año
+    }
+  }
 }

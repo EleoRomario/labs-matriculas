@@ -1,57 +1,57 @@
-import { Breadcrumbs, Button, Input } from "@material-tailwind/react";
-import { HomeSimpleDoor, SaveFloppyDisk } from "iconoir-react";
-import Link from "next/link";
-import { useEffect } from "react";
-import { AdminLayout } from "../../../../../components/Layout/admin/AdminLayout";
-import { Loading } from "../../../../../components/Loading/Loading";
-import { useAlumnos } from "../../../../../hook/useAlumnos";
+import { Breadcrumbs, Button, Input } from '@material-tailwind/react'
+import { HomeSimpleDoor, SaveFloppyDisk } from 'iconoir-react'
+import Link from 'next/link'
+import { useEffect } from 'react'
+import { AdminLayout } from '../../../../../components/Layout/admin/AdminLayout'
+import { Loading } from '../../../../../components/Loading/Loading'
+import { useAlumnos } from '../../../../../hook/useAlumnos'
 
-export default function Editar({ año,alumno }) {
-	const añoString =
-		año === "1"
-			? "Primer año"
-			: año === "2"
-			? "Segundo año"
-			: año === "3"
-			? "Tercer año"
-			: año === "4"
-			? "Cuarto año"
-			: "Quinto año";
+export default function Editar ({ año, alumno }) {
+  const añoString =
+		año === '1'
+		  ? 'Primer año'
+		  : año === '2'
+		    ? 'Segundo año'
+		    : año === '3'
+		      ? 'Tercer año'
+		      : año === '4'
+		        ? 'Cuarto año'
+		        : 'Quinto año'
 
-	const {
-		nombre,
-		apellido,
-		correo,
-		cui,
-		handleInputChange,
-		updateAlumno,
-		loadingSaveAlumno,
-		setFormData,
-	} = useAlumnos();
+  const {
+    nombre,
+    apellido,
+    correo,
+    cui,
+    handleInputChange,
+    updateAlumno,
+    loadingSaveAlumno,
+    setFormData
+  } = useAlumnos()
 
-	const onSubmitAlumno = async (e) => {
-		e.preventDefault();
-		const upAlumno = {
-			nombre,
-			apellido,
-			correo,
-			cui,
-			año,
-		};
-		await updateAlumno(alumno.id, upAlumno);
-	};
+  const onSubmitAlumno = async (e) => {
+    e.preventDefault()
+    const upAlumno = {
+      nombre,
+      apellido,
+      correo,
+      cui,
+      año
+    }
+    await updateAlumno(alumno.id, upAlumno)
+  }
 
-	useEffect(()=> {
-		const {nombre,apellido,correo,cui} = alumno;
-		setFormData({nombre,apellido,correo,cui});
-	},[])
+  useEffect(() => {
+    const { nombre, apellido, correo, cui } = alumno
+    setFormData({ nombre, apellido, correo, cui })
+  }, [])
 
-	return (
+  return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<Link href="/admin/alumnos">
@@ -87,13 +87,13 @@ export default function Editar({ año,alumno }) {
 						label="Correo"
 						name="correo"
 						required
-						type={"email"}
+						type={'email'}
 						value={correo}
 						onChange={handleInputChange}
 					/>
 					<Input
 						label="CUI"
-						type={"number"}
+						type={'number'}
 						name="cui"
 						required
 						value={cui}
@@ -104,35 +104,37 @@ export default function Editar({ año,alumno }) {
 						type="submit"
 						disabled={loadingSaveAlumno}
 					>
-						{!loadingSaveAlumno ? (
+						{!loadingSaveAlumno
+						  ? (
 							<>
 								<SaveFloppyDisk />
-								Actualizar informacion{" "}
+								Actualizar informacion{' '}
 							</>
-						) : (
+						    )
+						  : (
 							<>
 								<Loading />
 								Actualizando...
 							</>
-						)}
+						    )}
 					</Button>
 				</form>
 			</div>
 		</AdminLayout>
-	);
+  )
 }
 
 export const getServerSideProps = async (context) => {
-	const { params } = context;
-	const { año, idUser } = params;
+  const { params } = context
+  const { año, idUser } = params
 
-	const res = await fetch(`http://localhost:3000/api/alumnos/${año}/${idUser}`);
-	const alumno = await res.json();
+  const res = await fetch(`http://localhost:3000/api/alumnos/${año}/${idUser}`)
+  const alumno = await res.json()
 
-	return {
-		props: {
-			año,
-			alumno,
-		},
-	};
-};
+  return {
+    props: {
+      año,
+      alumno
+    }
+  }
+}

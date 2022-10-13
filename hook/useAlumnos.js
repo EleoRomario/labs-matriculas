@@ -1,13 +1,12 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { db } from "../firebase/firebase-config";
+import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { db } from '../firebase/firebase-config'
 
 export const useAlumnos = () => {
-
-  const router = useRouter();
-  const año = router.query.año;
+  const router = useRouter()
+  const año = router.query.año
 
   const [formData, setFormData] = useState({
     nombre: '',
@@ -26,40 +25,40 @@ export const useAlumnos = () => {
     })
   }
   const addAlumno = async (alumno) => {
-    setLoadingSaveAlumno(true);
-    await addDoc(collection(db, "alumnos"), alumno).then(() => {
-      toast.success("Alumno agregado correctamente");
-      setLoadingSaveAlumno(false);
-      router.push(`/admin/alumnos/${año}`);
-    });
-  };
+    setLoadingSaveAlumno(true)
+    await addDoc(collection(db, 'alumnos'), alumno).then(() => {
+      toast.success('Alumno agregado correctamente')
+      setLoadingSaveAlumno(false)
+      router.push(`/admin/alumnos/${año}`)
+    })
+  }
 
   const deleteAlumno = async (id) => {
-    setLoadingDeleteAlumno(true);
-    await deleteDoc(doc(db, "alumnos", id)).then(() => {
-      toast.success("Alumno eliminado correctamente");
-      setLoadingDeleteAlumno(false);
-      router.push(`/admin/alumnos/${año}`);
-    });
-  };
+    setLoadingDeleteAlumno(true)
+    await deleteDoc(doc(db, 'alumnos', id)).then(() => {
+      toast.success('Alumno eliminado correctamente')
+      setLoadingDeleteAlumno(false)
+      router.push(`/admin/alumnos/${año}`)
+    })
+  }
 
   const updateAlumno = async (id, alumno) => {
-    setLoadingSaveAlumno(true);
-    await updateDoc(doc(db, "alumnos",id), alumno).then(() => {
-      toast.success("Alumno actualizado correctamente");
-      setLoadingSaveAlumno(false);
-      router.push(`/admin/alumnos/${año}`);
-    });
-  };
+    setLoadingSaveAlumno(true)
+    await updateDoc(doc(db, 'alumnos', id), alumno).then(() => {
+      toast.success('Alumno actualizado correctamente')
+      setLoadingSaveAlumno(false)
+      router.push(`/admin/alumnos/${año}`)
+    })
+  }
 
   return {
-		...formData,
-		addAlumno,
-		handleInputChange,
-		loadingSaveAlumno,
-		deleteAlumno,
-		loadingDeleteAlumno,
-		setFormData,
-		updateAlumno,
-  };
+    ...formData,
+    addAlumno,
+    handleInputChange,
+    loadingSaveAlumno,
+    deleteAlumno,
+    loadingDeleteAlumno,
+    setFormData,
+    updateAlumno
+  }
 }

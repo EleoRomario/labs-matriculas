@@ -1,15 +1,15 @@
-import { Breadcrumbs, Button } from "@material-tailwind/react";
-import { Group, HomeSimpleDoor, NavArrowLeft } from "iconoir-react";
-import Link from "next/link";
-import { AdminLayout } from "../../../components/Layout/admin/AdminLayout";
+import { Breadcrumbs } from '@material-tailwind/react'
+import { Group, HomeSimpleDoor } from 'iconoir-react'
+import Link from 'next/link'
+import { AdminLayout } from '../../../components/Layout/admin/AdminLayout'
 
-export default function Alumnos() {
+export default function Alumnos () {
   return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<a>Alumnos </a>
@@ -47,5 +47,5 @@ export default function Alumnos() {
 				</Link>
 			</div>
 		</AdminLayout>
-  );
+  )
 }

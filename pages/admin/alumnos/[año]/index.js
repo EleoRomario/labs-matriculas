@@ -1,62 +1,58 @@
 import {
-	Breadcrumbs,
-	Button,
-	Dialog,
-	IconButton,
-	Popover,
-	PopoverContent,
-	PopoverHandler,
-	Tooltip,
-} from "@material-tailwind/react";
+  Breadcrumbs,
+  Button,
+  Dialog,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverHandler,
+  Tooltip
+} from '@material-tailwind/react'
 import {
-	AddUser,
-	EditPencil,
-	HomeSimpleDoor,
-	Trash,
-	User,
-	WarningTriangleOutline,
-} from "iconoir-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
-import { useAlumnos } from "../../../../hook/useAlumnos";
+  AddUser,
+  EditPencil,
+  HomeSimpleDoor,
+  Trash,
+  User,
+  WarningTriangleOutline
+} from 'iconoir-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { AdminLayout } from '../../../../components/Layout/admin/AdminLayout'
+import { useAlumnos } from '../../../../hook/useAlumnos'
 
-export default function Año({ año, alumnos }) {
-	const añoString =
-		año === "1"
-			? "Primer año"
-			: año === "2"
-			? "Segundo año"
-			: año === "3"
-			? "Tercer año"
-			: año === "4"
-			? "Cuarto año"
-			: "Quinto año";
+export default function Año ({ año, alumnos }) {
+  const añoString =
+		año === '1'
+		  ? 'Primer año'
+		  : año === '2'
+		    ? 'Segundo año'
+		    : año === '3'
+		      ? 'Tercer año'
+		      : año === '4'
+		        ? 'Cuarto año'
+		        : 'Quinto año'
 
-	const [open, setOpen] = useState(false);
-	const [idUser, setIdUser] = useState(null);
+  const [open, setOpen] = useState(false)
+  const [idUser, setIdUser] = useState(null)
 
-  const router = useRouter();
+  const { deleteAlumno } = useAlumnos()
 
-	const { deleteAlumno, loadingDeleteAlumno } = useAlumnos();
+  const onDelete = async (id) => {
+    await deleteAlumno(id)
+  }
 
-	const onDelete = async (id) => {
-		await deleteAlumno(id);
-	};
-
-	return (
+  return (
 		<AdminLayout>
 			<Dialog
 				open={open}
 				handler={() => {
-					setOpen(!open);
-					setIdUser(null);
+				  setOpen(!open)
+				  setIdUser(null)
 				}}
 				animate={{
-					mount: { scale: 1, y: 0 },
-					unmount: { scale: 0.9, y: -100 },
+				  mount: { scale: 1, y: 0 },
+				  unmount: { scale: 0.9, y: -100 }
 				}}
 				className="p-4 flex flex-col gap-3 items-center"
 			>
@@ -70,8 +66,8 @@ export default function Año({ año, alumnos }) {
 						color="gray"
 						size="sm"
 						onClick={() => {
-							setOpen(!open);
-							setIdUser(null);
+						  setOpen(!open)
+						  setIdUser(null)
 						}}
 					>
 						Cancelar
@@ -80,9 +76,9 @@ export default function Año({ año, alumnos }) {
 						color="red"
 						size="sm"
 						onClick={() => {
-							onDelete(idUser);
-							setOpen(!open);
-							setIdUser(null);
+						  onDelete(idUser)
+						  setOpen(!open)
+						  setIdUser(null)
 						}}
 					>
 						Eliminar
@@ -92,7 +88,7 @@ export default function Año({ año, alumnos }) {
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<Link href="/admin/alumnos">
@@ -116,20 +112,21 @@ export default function Año({ año, alumnos }) {
 				</div>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<div className="w-full flex flex-col gap-3">
-					{alumnos.legth > 0 ? (
-						alumnos.map((alumno) => (
+					{alumnos.legth > 0
+					  ? (
+					  alumnos.map((alumno) => (
 							<div
 								key={alumno.id}
 								className="border border-gray-100 py-2 px-4 rounded cursor-pointer hover:bg-cyan-50 capitalize flex justify-between items-center"
 							>
-								{" "}
+								{' '}
 								<div>
 									<Popover placement="top-start">
 										<PopoverHandler>
 											<div className="w-full">
 												<div className="text-gray-600 flex gap-2 hover:text-cyan-800">
 													<User />
-													{alumno.nombre}{" "}
+													{alumno.nombre}{' '}
 													{alumno.apellido}
 												</div>
 											</div>
@@ -190,8 +187,8 @@ export default function Año({ año, alumnos }) {
 											variant="outlined"
 											className="flex p-1 gap-1 font-thin items-center border-red-100 text-red-100 hover:bg-red-400 hover:border-red-400 hover:text-white"
 											onClick={() => {
-												setOpen(!open);
-												setIdUser(alumno.id);
+											  setOpen(!open)
+											  setIdUser(alumno.id)
 											}}
 										>
 											<Trash />
@@ -199,29 +196,30 @@ export default function Año({ año, alumnos }) {
 									</Tooltip>
 								</div>
 							</div>
-						))
-					) : (
+					  ))
+					    )
+					  : (
 						<div className="text-center text-gray-500">
 							<p>No hay alumnos registrados en este año</p>
 						</div>
-					)}
+					    )}
 				</div>
 			</div>
 		</AdminLayout>
-	);
+  )
 }
 
 export const getServerSideProps = async (context) => {
-	const { params } = context;
-	const { año } = params;
+  const { params } = context
+  const { año } = params
 
-	const res = await fetch(`http://localhost:3000/api/alumnos/${año}`);
-	const alumnos = await res.json();
+  const res = await fetch(`http://localhost:3000/api/alumnos/${año}`)
+  const alumnos = await res.json()
 
-	return {
-		props: {
-			año,
-			alumnos,
-		},
-	};
-};
+  return {
+    props: {
+      año,
+      alumnos
+    }
+  }
+}

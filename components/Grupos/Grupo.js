@@ -1,53 +1,53 @@
-import { IconButton, Input, Option, Select } from "@material-tailwind/react";
-import { Calendar, Cancel, ClockOutline, Plus } from "iconoir-react";
-import { useEffect, useState } from "react";
-import { Dia } from "../Horario/Dia";
+import { Input, Option, Select } from '@material-tailwind/react'
+import { Cancel, Plus } from 'iconoir-react'
+import { useEffect, useState } from 'react'
+import { Dia } from '../Horario/Dia'
 
 export const Grupo = ({
-	data,
-	index,
-	cardGrupos,
-	setCardGrupos,
-	handleChange,
-	handleSelectChange,
+  data,
+  index,
+  cardGrupos,
+  setCardGrupos,
+  handleChange,
+  handleSelectChange
 }) => {
-	const { nombre, docente, capacidad, horario } = data;
+  const { nombre, docente, capacidad, horario } = data
 
-	const [cardHorarios, setCardHorarios] = useState(horario);
+  const [cardHorarios, setCardHorarios] = useState(horario)
 
-	const removeGrupo = () => {
-		const grupos = [...cardGrupos];
-		grupos.splice(index, 1);
-		setCardGrupos(grupos);
-	};
+  const removeGrupo = () => {
+    const grupos = [...cardGrupos]
+    grupos.splice(index, 1)
+    setCardGrupos(grupos)
+  }
 
-	const addDia = () => {
-		const newCardDia = [...cardHorarios];
-		newCardDia.push({
-			dia: "",
-			horaInicio: "",
-			horaFin: "",
-		});
-		setCardHorarios(newCardDia);
-	};
+  const addDia = () => {
+    const newCardDia = [...cardHorarios]
+    newCardDia.push({
+      dia: '',
+      horaInicio: '',
+      horaFin: ''
+    })
+    setCardHorarios(newCardDia)
+  }
 
-	const handleHorarioChange = (index, name, e) => {
-		const data = [...cardHorarios];
-		data[index][name] = e;
-		setCardHorarios(data);
-	};
+  const handleHorarioChange = (index, name, e) => {
+    const data = [...cardHorarios]
+    data[index][name] = e
+    setCardHorarios(data)
+  }
 
-	useEffect(() => {
-		const data = [...cardGrupos];
-		data[index].horario = cardHorarios;
-		setCardGrupos(data);
-	}, [cardHorarios]);
+  useEffect(() => {
+    const data = [...cardGrupos]
+    data[index].horario = cardHorarios
+    setCardGrupos(data)
+  }, [cardHorarios])
 
-	useEffect(() => {
-		setCardHorarios(horario);
-	}, [horario]);
+  useEffect(() => {
+    setCardHorarios(horario)
+  }, [horario])
 
-	return (
+  return (
 		<div className="w-full flex flex-col gap-5 p-5 pt-10 border bg-teal-50 border-teal-700 rounded relative">
 			<div
 				className="absolute top-1 right-1 rounded-full bg-teal-600 text-white p-1 cursor-pointer"
@@ -58,7 +58,7 @@ export const Grupo = ({
 			<Select
 				label="Grupo"
 				value={nombre}
-				onChange={(e) => handleSelectChange(index, "nombre", e)}
+				onChange={(e) => handleSelectChange(index, 'nombre', e)}
 			>
 				<Option value="A">A</Option>
 				<Option value="B">B</Option>
@@ -74,7 +74,7 @@ export const Grupo = ({
 			/>
 			<Input
 				label="Capacidad"
-				type={"number"}
+				type={'number'}
 				name="capacidad"
 				value={capacidad}
 				onChange={(e) => handleChange(index, e)}
@@ -92,7 +92,7 @@ export const Grupo = ({
 				</div>
 				<div className="flex flex-col gap-5">
 					{cardHorarios.map((horario, index) => {
-						return (
+					  return (
 							<Dia
 								key={index}
 								index={index}
@@ -101,10 +101,10 @@ export const Grupo = ({
 								setCardHorarios={setCardHorarios}
 								handleHorarioChange={handleHorarioChange}
 							/>
-						);
+					  )
 					})}
 				</div>
 			</div>
 		</div>
-	);
-};
+  )
+}

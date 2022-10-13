@@ -1,86 +1,86 @@
-import { Breadcrumbs, Button, Input } from "@material-tailwind/react";
-import { GridAdd, HomeSimpleDoor, SaveFloppyDisk } from "iconoir-react";
-import Link from "next/link";
-import { useState } from "react";
-import { Grupo } from "../../../../components/Grupos/Grupo";
-import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
-import { Loading } from "../../../../components/Loading/Loading";
-import { useCursos } from "../../../../hook/useCursos";
+import { Breadcrumbs, Button, Input } from '@material-tailwind/react'
+import { GridAdd, HomeSimpleDoor, SaveFloppyDisk } from 'iconoir-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { Grupo } from '../../../../components/Grupos/Grupo'
+import { AdminLayout } from '../../../../components/Layout/admin/AdminLayout'
+import { Loading } from '../../../../components/Loading/Loading'
+import { useCursos } from '../../../../hook/useCursos'
 
-export default function Nuevo({ año }) {
-	const añoString =
-		año === "1"
-			? "Primer año"
-			: año === "2"
-			? "Segundo año"
-			: año === "3"
-			? "Tercer año"
-			: año === "4"
-			? "Cuarto año"
-			: "Quinto año";
+export default function Nuevo ({ año }) {
+  const añoString =
+		año === '1'
+		  ? 'Primer año'
+		  : año === '2'
+		    ? 'Segundo año'
+		    : año === '3'
+		      ? 'Tercer año'
+		      : año === '4'
+		        ? 'Cuarto año'
+		        : 'Quinto año'
 
-	const {
+  const {
     nombre,
-		handleInputChange,
-		addCurso,
-		loadingSaveCurso,
-	} = useCursos();
-		
-	const [cardGrupos, setCardGrupos] = useState([
-		{
-			nombre: "",
-      docente: "",
-      capacidad: "",
+    handleInputChange,
+    addCurso,
+    loadingSaveCurso
+  } = useCursos()
+
+  const [cardGrupos, setCardGrupos] = useState([
+    {
+      nombre: '',
+      docente: '',
+      capacidad: '',
       horario: [{
-				dia: "",
-				horaInicio: "",
-				horaFin: "",
-			}],
-		}
-  ]);
+        dia: '',
+        horaInicio: '',
+        horaFin: ''
+      }]
+    }
+  ])
 
   const handleChange = (index, e) => {
-    const data = [...cardGrupos];
-    data[index][e.target.name] = e.target.value;
-    setCardGrupos(data);
+    const data = [...cardGrupos]
+    data[index][e.target.name] = e.target.value
+    setCardGrupos(data)
   }
-  const handleSelectChange = (index,name, e) => {
-    const data = [...cardGrupos];
-    data[index][name] = e;
-    setCardGrupos(data);
+  const handleSelectChange = (index, name, e) => {
+    const data = [...cardGrupos]
+    data[index][name] = e
+    setCardGrupos(data)
   }
 
   const addGrupo = () => {
-    const newCardGrupos = [...cardGrupos];
+    const newCardGrupos = [...cardGrupos]
     newCardGrupos.push({
-      nombre: "",
-      docente: "",
-      capacidad: "",
+      nombre: '',
+      docente: '',
+      capacidad: '',
       horario: [{
-				dia: "",
-				horaInicio: "",
-				horaFin: "",
-			}],	
-    });
-    setCardGrupos(newCardGrupos);
+        dia: '',
+        horaInicio: '',
+        horaFin: ''
+      }]
+    })
+    setCardGrupos(newCardGrupos)
   }
 
-	const onSubmitCurso = async (e) => {
-		e.preventDefault();
-		const curso = {
-			nombre,
+  const onSubmitCurso = async (e) => {
+    e.preventDefault()
+    const curso = {
+      nombre,
       año,
-      grupos: cardGrupos,
-		};		
-		await addCurso(curso);
-	};
+      grupos: cardGrupos
+    }
+    await addCurso(curso)
+  }
 
-	return (
+  return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<Link href="/admin/cursos">
@@ -107,7 +107,7 @@ export default function Nuevo({ año }) {
 					/>
 					<div className="w-full border border-teal-100 p-4 text-teal-200">
 						<div className="flex w-full justify-between items-center">
-							Grupos{" "}
+							Grupos{' '}
 							<Button
 								as="div"
 								onClick={() => addGrupo()}
@@ -120,7 +120,7 @@ export default function Nuevo({ año }) {
 						<div className="w-full h-[1px] bg-teal-100 my-2" />
 						<div className="w-full flex flex-col gap-5">
 							{cardGrupos.map((grupo, index) => {
-								return (
+							  return (
 									<Grupo
 										data={grupo}
 										key={index}
@@ -130,7 +130,7 @@ export default function Nuevo({ año }) {
 										handleChange={handleChange}
 										handleSelectChange={handleSelectChange}
 									/>
-								);
+							  )
 							})}
 						</div>
 					</div>
@@ -139,31 +139,33 @@ export default function Nuevo({ año }) {
 						type="submit"
 						disabled={loadingSaveCurso}
 					>
-						{!loadingSaveCurso ? (
+						{!loadingSaveCurso
+						  ? (
 							<>
 								<SaveFloppyDisk />
-								Guardar informacion{" "}
+								Guardar informacion{' '}
 							</>
-						) : (
+						    )
+						  : (
 							<>
 								<Loading />
 								Guardando...
 							</>
-						)}
+						    )}
 					</Button>
 				</form>
 			</div>
 		</AdminLayout>
-	);
+  )
 }
 
 export const getServerSideProps = async (context) => {
-	const { params } = context;
-	const { año } = params;
+  const { params } = context
+  const { año } = params
 
-	return {
-		props: {
-			año,
-		},
-	};
-};
+  return {
+    props: {
+      año
+    }
+  }
+}

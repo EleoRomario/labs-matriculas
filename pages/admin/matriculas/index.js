@@ -1,15 +1,15 @@
-import { Breadcrumbs } from "@material-tailwind/react";
-import { HomeSimpleDoor, PasteClipboard } from "iconoir-react";
-import Link from "next/link";
-import { AdminLayout } from "../../../components/Layout/admin/AdminLayout";
+import { Breadcrumbs } from '@material-tailwind/react'
+import { HomeSimpleDoor, PasteClipboard } from 'iconoir-react'
+import Link from 'next/link'
+import { AdminLayout } from '../../../components/Layout/admin/AdminLayout'
 
-export default function Matriculas() {
+export default function Matriculas () {
   return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<a>Cursos por año </a>
@@ -48,5 +48,5 @@ export default function Matriculas() {
 				</Link>
 			</div>
 		</AdminLayout>
-  );
+  )
 }

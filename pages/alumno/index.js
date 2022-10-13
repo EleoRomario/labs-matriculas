@@ -1,13 +1,10 @@
-import { Button, Tooltip, Typography } from "@material-tailwind/react";
-import { LogOut, PasteClipboard, User, UserScan } from "iconoir-react";
-import Link from "next/link";
-import { useAuthContext } from "../../auth/AuthContext";
-import { AlumnoLayout } from "../../components/Layout/alumno/AlumnoLayout";
+import { Button} from '@material-tailwind/react'
+import { PasteClipboard } from 'iconoir-react'
+import Link from 'next/link'
+import { AlumnoLayout } from '../../components/Layout/alumno/AlumnoLayout'
 
-export default function Alumno() {
-	const { alumno, logoutAlumno } = useAuthContext();
-
-	return (
+export default function Alumno () {
+  return (
 		<AlumnoLayout>
 			<Link href="/alumno/matricula">
 				<Button
@@ -25,5 +22,5 @@ export default function Alumno() {
 				</p>
 			</div>
 		</AlumnoLayout>
-	);
+  )
 }

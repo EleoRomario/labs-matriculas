@@ -1,30 +1,30 @@
 import {
-	Card,
-	CardHeader,
-	CardBody,
-	CardFooter,
-	Typography,
-	Input,
-	Button,
-} from "@material-tailwind/react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useAuthContext } from "../../../auth/AuthContext";
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Input,
+  Button
+} from '@material-tailwind/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+import { useAuthContext } from '../../../auth/AuthContext'
 
-export default function Login() {
-	const { signInUser } = useAuthContext();
+export default function Login () {
+  const { signInUser } = useAuthContext()
 
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (email && password) {
-			signInUser(email, password);
-		}
-	};
-	return (
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (email && password) {
+      signInUser(email, password)
+    }
+  }
+  return (
 		<Card className="w-96 h-[30rem]">
 			<form onSubmit={handleSubmit}>
 				<CardHeader className="pt-10 bg-transparent grid place-items-center shadow-none">
@@ -48,13 +48,13 @@ export default function Login() {
 					<Input
 						label="Correo"
 						size="lg"
-						type={"email"}
+						type={'email'}
 						required
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<Input
-						type={"password"}
+						type={'password'}
 						label="Password"
 						size="lg"
 						required
@@ -79,5 +79,5 @@ export default function Login() {
 				</CardFooter>
 			</form>
 		</Card>
-	);
+  )
 }

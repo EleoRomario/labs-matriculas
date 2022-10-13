@@ -1,12 +1,12 @@
-import { Button, Tooltip, Typography } from "@material-tailwind/react";
-import { LogOut, User } from "iconoir-react";
-import { useAuthContext } from "../../../auth/AuthContext";
+import { Button, Tooltip } from '@material-tailwind/react'
+import { LogOut, User } from 'iconoir-react'
+import { useAuthContext } from '../../../auth/AuthContext'
 
 export const AdminLayout = ({ children }) => {
-	const { user, logoutUser } = useAuthContext();
-	const { email } = user
+  const { user, logoutUser } = useAuthContext()
+  const { email } = user
 
-	return (
+  return (
 		<div className="bg-white/80 backdrop-blur-sm rounded-lg w-[40rem] h-[90vh] relative">
 			<div className="w-full h-20 flex justify-between items-center p-5">
 				<div className="flex flex-row justify-between items-center">
@@ -36,5 +36,5 @@ export const AdminLayout = ({ children }) => {
 				{children}
 			</div>
 		</div>
-	);
-};
+  )
+}

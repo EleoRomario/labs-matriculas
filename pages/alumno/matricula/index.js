@@ -1,10 +1,10 @@
-import { Button } from "@material-tailwind/react";
-import { NavArrowLeft } from "iconoir-react";
-import Link from "next/link";
-import { AlumnoLayout } from "../../../components/Layout/alumno/AlumnoLayout";
+import { Button } from '@material-tailwind/react'
+import { NavArrowLeft } from 'iconoir-react'
+import Link from 'next/link'
+import { AlumnoLayout } from '../../../components/Layout/alumno/AlumnoLayout'
 
-export default function Matricula() {
-	return (
+export default function Matricula () {
+  return (
 		<AlumnoLayout>
     <Link href="/alumno">
 			<Button
@@ -16,5 +16,5 @@ export default function Matricula() {
 			</Button>
       </Link>
 		</AlumnoLayout>
-	);
+  )
 }

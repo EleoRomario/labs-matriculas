@@ -1,16 +1,16 @@
-import { Option, Select } from "@material-tailwind/react";
-import { Calendar, Cancel, ClockOutline } from "iconoir-react";
+import { Option, Select } from '@material-tailwind/react'
+import { Calendar, Cancel, ClockOutline } from 'iconoir-react'
 
 export const Dia = ({ index, data, handleHorarioChange, cardHorarios, setCardHorarios }) => {
-	const { dia, horaInicio, horaFin } = data;
+  const { dia, horaInicio, horaFin } = data
 
-	const removeDia = () => {
-		const horarios = [...cardHorarios];
-		horarios.splice(index, 1);
-		setCardHorarios(horarios);
-	};
+  const removeDia = () => {
+    const horarios = [...cardHorarios]
+    horarios.splice(index, 1)
+    setCardHorarios(horarios)
+  }
 
-	return (
+  return (
 		<div className="bg-white border border-teal-800 rounder flex gap-5 flex-col p-3 relative">
 			<Cancel
 				className="absolute top-0.5 right-0.5 cursor-pointer border border-teal-800 hover:text-white hover:bg-teal-800"
@@ -22,7 +22,7 @@ export const Dia = ({ index, data, handleHorarioChange, cardHorarios, setCardHor
 				<Select
 					label="Dia"
 					value={dia}
-					onChange={(e) => handleHorarioChange(index, "dia", e)}
+					onChange={(e) => handleHorarioChange(index, 'dia', e)}
 				>
 					<Option value="Lunes">Lunes</Option>
 					<Option value="Martes">Martes</Option>
@@ -37,7 +37,7 @@ export const Dia = ({ index, data, handleHorarioChange, cardHorarios, setCardHor
 					label="Hora inicio"
 					value={horaInicio}
 					onChange={(e) =>
-						handleHorarioChange(index, "horaInicio", e)
+					  handleHorarioChange(index, 'horaInicio', e)
 					}
 				>
 					<Option value="7:00">7:00 am</Option>
@@ -63,7 +63,7 @@ export const Dia = ({ index, data, handleHorarioChange, cardHorarios, setCardHor
 				<Select
 					label="Hora fin"
 					value={horaFin}
-					onChange={(e) => handleHorarioChange(index, "horaFin", e)}
+					onChange={(e) => handleHorarioChange(index, 'horaFin', e)}
 				>
 					<Option value="7:50">7:50 am</Option>
 					<Option value="8:40">8:40 am</Option>
@@ -84,5 +84,5 @@ export const Dia = ({ index, data, handleHorarioChange, cardHorarios, setCardHor
 				</Select>
 			</div>
 		</div>
-	);
-};
+  )
+}

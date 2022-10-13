@@ -1,31 +1,30 @@
 import {
-	Card,
-	CardHeader,
-	CardBody,
-	CardFooter,
-	Typography,
-	Input,
-	Button,
-} from "@material-tailwind/react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useAuthContext } from "../../../auth/AuthContext";
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Input,
+  Button
+} from '@material-tailwind/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+import { useAuthContext } from '../../../auth/AuthContext'
 
-export default function Login() {
+export default function Login () {
+  const { signInAlumno } = useAuthContext()
 
-	const { signInAlumno } = useAuthContext();
+  const [cui, setCui] = useState('')
 
-	const [cui, setCui] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (cui) {
+      signInAlumno(cui)
+    }
+  }
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (cui) {
-			signInAlumno(cui);
-		}
-	};
-
-	return (
+  return (
 		<Card className="w-96 h-[30rem]">
 			<form onSubmit={handleSubmit}>
 				<CardHeader className="pt-10 bg-transparent grid place-items-center shadow-none">
@@ -65,5 +64,5 @@ export default function Login() {
 				</CardFooter>
 			</form>
 		</Card>
-	);
+  )
 }

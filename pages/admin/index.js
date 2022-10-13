@@ -1,14 +1,12 @@
-import { Book, DashboardSpeed, Group, PasteClipboard } from "iconoir-react";
-import Link from "next/link";
-import { useAuthContext } from "../../auth/AuthContext";
-import { AdminLayout } from "../../components/Layout/admin/AdminLayout";
+import { Book, DashboardSpeed, Group, PasteClipboard } from 'iconoir-react'
+import Link from 'next/link'
+import { AdminLayout } from '../../components/Layout/admin/AdminLayout'
 
-export default function Admin() {
-
+export default function Admin () {
   return (
 		<AdminLayout>
 			<h1 className="w-full bg-unsa-200 text-white p-2 rounded flex gap-2 items-center">
-				{" "}
+				{' '}
 				<DashboardSpeed /> Dashboard
 			</h1>
 			<div className="flex flex-row flex-wrap items-center justify-center gap-4 border border-gray-200 rounded w-full p-2">
@@ -32,5 +30,5 @@ export default function Admin() {
 				</Link>
 			</div>
 		</AdminLayout>
-  );
+  )
 }

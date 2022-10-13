@@ -1,15 +1,15 @@
-import { Breadcrumbs } from "@material-tailwind/react";
-import { BookmarkBook, HomeSimpleDoor } from "iconoir-react";
-import Link from "next/link";
-import { AdminLayout } from "../../../components/Layout/admin/AdminLayout";
+import { Breadcrumbs } from '@material-tailwind/react'
+import { BookmarkBook, HomeSimpleDoor } from 'iconoir-react'
+import Link from 'next/link'
+import { AdminLayout } from '../../../components/Layout/admin/AdminLayout'
 
-export default function Cursos() {
+export default function Cursos () {
   return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<a>Cursos </a>
@@ -47,5 +47,5 @@ export default function Cursos() {
 				</Link>
 			</div>
 		</AdminLayout>
-  );
+  )
 }

@@ -1,10 +1,9 @@
-import { Button, Tooltip, Typography } from "@material-tailwind/react";
-import { LogOut, User } from "iconoir-react";
-import { useAuthContext } from "../../../auth/AuthContext";
+import { Button, Tooltip } from '@material-tailwind/react'
+import { LogOut, User } from 'iconoir-react'
+import { useAuthContext } from '../../../auth/AuthContext'
 
-export const AlumnoLayout = ({children}) => {
-
-  const { alumno, logoutAlumno } = useAuthContext();
+export const AlumnoLayout = ({ children }) => {
+  const { alumno, logoutAlumno } = useAuthContext()
 
   return (
 		<div className="bg-white/80 backdrop-blur-sm rounded-lg w-[40rem] h-[90vh] relative">
@@ -36,5 +35,5 @@ export const AlumnoLayout = ({children}) => {
 				{children}
 			</div>
 		</div>
-  );
+  )
 }

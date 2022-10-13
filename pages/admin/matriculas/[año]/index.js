@@ -1,69 +1,51 @@
 import {
-	Accordion,
-	AccordionBody,
-	AccordionHeader,
-	Breadcrumbs,
-	Button,
-	Dialog,
-	IconButton,
-	Popover,
-	PopoverContent,
-	PopoverHandler,
-	Tooltip,
-} from "@material-tailwind/react";
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+  Breadcrumbs,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverHandler,
+  Tooltip
+} from '@material-tailwind/react'
 import {
-	AddUser,
-	Book,
-	BookmarkBook,
-	ClockOutline,
-	EditPencil,
-	HomeSimpleDoor,
-	Trash,
-	User,
-	WarningTriangleOutline,
-} from "iconoir-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
-import { useCursos } from "../../../../hook/useCursos";
+  Book,
+  ClockOutline,
+  EditPencil,
+  HomeSimpleDoor,
+  Trash,
+} from 'iconoir-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import { AdminLayout } from '../../../../components/Layout/admin/AdminLayout'
 
-export default function Año({ año, cursos }) {
-	const añoString =
-		año === "1"
-			? "Primer año"
-			: año === "2"
-			? "Segundo año"
-			: año === "3"
-			? "Tercer año"
-			: año === "4"
-			? "Cuarto año"
-			: "Quinto año";
+export default function Año ({ año, cursos }) {
+  const añoString =
+		año === '1'
+		  ? 'Primer año'
+		  : año === '2'
+		    ? 'Segundo año'
+		    : año === '3'
+		      ? 'Tercer año'
+		      : año === '4'
+		        ? 'Cuarto año'
+		        : 'Quinto año'
 
-	const [open, setOpen] = useState(false);
-	const [idUser, setIdCurso] = useState(null);
+  const [open, setOpen] = useState(false)
 
-	const router = useRouter();
+  const [openGrupo, setOpenGrupo] = useState(0)
 
-	const { deleteCurso, loadingDeleteCurso } = useCursos();
+  const handleOpenGrupo = (value) => {
+    setOpenGrupo(openGrupo === value ? 0 : value)
+  }
 
-	const onDelete = async (id) => {
-		await deleteCurso(id);
-	};
-
-	const [openGrupo, setOpenGrupo] = useState(0);
-
-	const handleOpenGrupo = (value) => {
-		setOpenGrupo(openGrupo === value ? 0 : value);
-	};
-
-	return (
-		<AdminLayout>			
+  return (
+		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{" "}
+						<HomeSimpleDoor />{' '}
 					</a>
 				</Link>
 				<Link href="/admin/matriculas">
@@ -73,17 +55,18 @@ export default function Año({ año, cursos }) {
 			</Breadcrumbs>
 			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded overflow-y-scroll">
 				<div className="w-full flex justify-between items-center">
-					<p>Cursos del {añoString}</p>					
+					<p>Cursos del {añoString}</p>
 				</div>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<div className="w-full flex flex-col gap-3">
-					{cursos.length > 0 ? (
-						cursos.map((curso) => (
+					{cursos.length > 0
+					  ? (
+					  cursos.map((curso) => (
 							<div
 								key={curso.id}
 								className="border border-gray-100 py-2 px-4 rounded cursor-pointer hover:bg-cyan-50 capitalize flex justify-between items-center"
 							>
-								{" "}
+								{' '}
 								<div>
 									<Popover placement="top-start">
 										<PopoverHandler>
@@ -107,15 +90,15 @@ export default function Año({ año, cursos }) {
 												</h1>
 												<div>
 													{curso.grupos.map(
-														(
-															{
-																horario,
-																capacidad,
-																docente,
-																nombre,
-															},
-															index
-														) => (
+													  (
+													    {
+													      horario,
+													      capacidad,
+													      docente,
+													      nombre
+													    },
+													    index
+													  ) => (
 															<Accordion
 																open={
 																	openGrupo ===
@@ -126,22 +109,22 @@ export default function Año({ año, cursos }) {
 															>
 																<AccordionHeader
 																	onClick={() =>
-																		handleOpenGrupo(
-																			index +
+																	  handleOpenGrupo(
+																	    index +
 																				1
-																		)
+																	  )
 																	}
 																	className="text-xs p-1"
 																>
 																	<span className="font-medium ">
-																		Grupo:{" "}
+																		Grupo:{' '}
 																	</span>
 																	{nombre}
 																</AccordionHeader>
 																<AccordionBody>
 																	<div>
 																		<span className="font-medium">
-																			Docente:{" "}
+																			Docente:{' '}
 																		</span>
 																		{
 																			docente
@@ -149,7 +132,7 @@ export default function Año({ año, cursos }) {
 																	</div>
 																	<div>
 																		<span className="font-medium">
-																			Capacidad:{" "}
+																			Capacidad:{' '}
 																		</span>
 																		{
 																			capacidad
@@ -157,7 +140,7 @@ export default function Año({ año, cursos }) {
 																	</div>
 																	<div>
 																		<span className="font-medium">
-																			Dia:{" "}
+																			Dia:{' '}
 																		</span>
 																		{
 																			horario.dia
@@ -169,15 +152,15 @@ export default function Año({ año, cursos }) {
 																		</span>
 																		{
 																			horario.horaInicio
-																		}{" "}
-																		-{" "}
+																		}{' '}
+																		-{' '}
 																		{
 																			horario.horaFin
 																		}
 																	</div>
 																</AccordionBody>
 															</Accordion>
-														)
+													  )
 													)}
 												</div>
 											</div>
@@ -212,8 +195,7 @@ export default function Año({ año, cursos }) {
 											variant="outlined"
 											className="flex p-1 gap-1 font-thin items-center border-red-100 text-red-100 hover:bg-red-400 hover:border-red-400 hover:text-white"
 											onClick={() => {
-												setOpen(!open);
-												setIdCurso(curso.id);
+											  setOpen(!open)
 											}}
 										>
 											<Trash />
@@ -221,29 +203,30 @@ export default function Año({ año, cursos }) {
 									</Tooltip>
 								</div>
 							</div>
-						))
-					) : (
+					  ))
+					    )
+					  : (
 						<div className="text-center text-gray-500">
 							<p>No hay cursos registrados en este año</p>
 						</div>
-					)}
+					    )}
 				</div>
 			</div>
 		</AdminLayout>
-	);
+  )
 }
 
 export const getServerSideProps = async (context) => {
-	const { params } = context;
-	const { año } = params;
+  const { params } = context
+  const { año } = params
 
-	const res = await fetch(`http://localhost:3000/api/cursos/${año}`);
-	const cursos = await res.json();
+  const res = await fetch(`http://localhost:3000/api/cursos/${año}`)
+  const cursos = await res.json()
 
-	return {
-		props: {
-			año,
-			cursos,
-		},
-	};
-};
+  return {
+    props: {
+      año,
+      cursos
+    }
+  }
+}
