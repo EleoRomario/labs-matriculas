@@ -21,7 +21,6 @@ export const Grupo = ({
 		setCardGrupos(grupos);
 	};
 
-	
 	const addDia = () => {
 		const newCardDia = [...cardHorarios];
 		newCardDia.push({
@@ -29,7 +28,7 @@ export const Grupo = ({
 			horaInicio: "",
 			horaFin: "",
 		});
-		setCardHorarios(newCardDia);	
+		setCardHorarios(newCardDia);
 	};
 
 	const handleHorarioChange = (index, name, e) => {
@@ -42,7 +41,11 @@ export const Grupo = ({
 		const data = [...cardGrupos];
 		data[index].horario = cardHorarios;
 		setCardGrupos(data);
-		}, [cardHorarios]);
+	}, [cardHorarios]);
+
+	useEffect(() => {
+		setCardHorarios(horario);
+	}, [horario]);
 
 	return (
 		<div className="w-full flex flex-col gap-5 p-5 pt-10 border bg-teal-50 border-teal-700 rounded relative">

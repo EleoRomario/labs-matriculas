@@ -28,58 +28,58 @@ export default function Editar({ año, curso }) {
 		setFormData,
 	} = useCursos();
 
-	const onSubmitCurso = async (e) => {
-		e.preventDefault();
-		const upCurso = {
-      nombre,
-			año,
-			grupos: cardGrupos,
-		};
-		await updateCurso(curso.id, upCurso);
-	};
-
-  const [cardGrupos, setCardGrupos] = useState([
+	const [cardGrupos, setCardGrupos] = useState([
 		{
 			nombre: "",
 			docente: "",
 			capacidad: "",
-			horario: {
-				dia: "",
-				horaInicio: "",
-				horaFin: "",
-			},
+			horario: [
+				{
+					dia: "",
+					horaInicio: "",
+					horaFin: "",
+				},
+			],
 		},
-  ]);
+	]);
 
-  const handleChange = (index, e) => {
+	const handleChange = (index, e) => {
 		const data = [...cardGrupos];
 		data[index][e.target.name] = e.target.value;
 		setCardGrupos(data);
-  };
-  const handleSelectChange = (index, name, e) => {
+	};
+	const handleSelectChange = (index, name, e) => {
 		const data = [...cardGrupos];
 		data[index][name] = e;
 		setCardGrupos(data);
-  };
-  const handleHorarioChange = (index, name, e) => {
-		const data = [...cardGrupos];
-		data[index].horario[name] = e;
-		setCardGrupos(data);
-  };
-  const addGrupo = () => {
+	};
+
+	const addGrupo = () => {
 		const newCardGrupos = [...cardGrupos];
 		newCardGrupos.push({
 			nombre: "",
 			docente: "",
 			capacidad: "",
-			horario: {
-				dia: "",
-				horaInicio: "",
-				horaFin: "",
-			},
+			horario: [
+				{
+					dia: "",
+					horaInicio: "",
+					horaFin: "",
+				},
+			],
 		});
 		setCardGrupos(newCardGrupos);
-  };
+	};
+
+	const onSubmitCurso = async (e) => {
+		e.preventDefault();
+		const upCurso = {
+			nombre,
+			año,
+			grupos: cardGrupos,
+		};
+		await updateCurso(curso.id, upCurso);
+	};
 
 	useEffect(() => {
 		const { nombre, grupos } = curso;
@@ -101,10 +101,10 @@ export default function Editar({ año, curso }) {
 				<Link href={`/admin/cursos/${año}`}>
 					<a className="opacity-60">{añoString}</a>
 				</Link>
-				<a>Editar Curso</a>
+				<a>Curso nuevo</a>
 			</Breadcrumbs>
-			<div className="w-full flex flex-col items-center gap-3 border border-gray-100 p-4 rounded">
-				<h1 className="font-medium">Editar Datos Generales</h1>
+			<div className="w-full flex flex-col items-center gap-3 border border-gray-100 p-4 rounded overflow-y-scroll">
+				<h1 className="font-medium">Datos Generales del Curso</h1>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<form
 					onSubmit={onSubmitCurso}
@@ -141,9 +141,6 @@ export default function Editar({ año, curso }) {
 										setCardGrupos={setCardGrupos}
 										handleChange={handleChange}
 										handleSelectChange={handleSelectChange}
-										handleHorarioChange={
-											handleHorarioChange
-										}
 									/>
 								);
 							})}
