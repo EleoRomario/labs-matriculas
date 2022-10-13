@@ -1,232 +1,119 @@
 import {
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
-  Breadcrumbs,
-  IconButton,
-  Popover,
-  PopoverContent,
-  PopoverHandler,
-  Tooltip
-} from '@material-tailwind/react'
-import {
-  Book,
-  ClockOutline,
-  EditPencil,
-  HomeSimpleDoor,
-  Trash,
-} from 'iconoir-react'
-import Link from 'next/link'
-import { useState } from 'react'
-import { AdminLayout } from '../../../../components/Layout/admin/AdminLayout'
+	Breadcrumbs,
+	Popover,
+	PopoverContent,
+	PopoverHandler,
+} from "@material-tailwind/react";
+import { HomeSimpleDoor, PasteClipboard, User } from "iconoir-react";
+import Link from "next/link";
+import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
 
-export default function Año ({ año, cursos }) {
-  const añoString =
-		año === '1'
-		  ? 'Primer año'
-		  : año === '2'
-		    ? 'Segundo año'
-		    : año === '3'
-		      ? 'Tercer año'
-		      : año === '4'
-		        ? 'Cuarto año'
-		        : 'Quinto año'
+export default function Año({ año, alumnos }) {
+	const añoString =
+		año === "1"
+			? "Primer año"
+			: año === "2"
+			? "Segundo año"
+			: año === "3"
+			? "Tercer año"
+			: año === "4"
+			? "Cuarto año"
+			: "Quinto año";
 
-  const [open, setOpen] = useState(false)
-
-  const [openGrupo, setOpenGrupo] = useState(0)
-
-  const handleOpenGrupo = (value) => {
-    setOpenGrupo(openGrupo === value ? 0 : value)
-  }
-
-  return (
+	return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{' '}
+						<HomeSimpleDoor />{" "}
 					</a>
 				</Link>
 				<Link href="/admin/matriculas">
-					<a className="opacity-60">Cursos por año </a>
+					<a className="opacity-60">Años</a>
 				</Link>
-				<a>{añoString} </a>
+				<a>Alumnos ({año}) </a>
 			</Breadcrumbs>
 			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded overflow-y-scroll">
 				<div className="w-full flex justify-between items-center">
-					<p>Cursos del {añoString}</p>
+					<p>Alumnos del {añoString}</p>
 				</div>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<div className="w-full flex flex-col gap-3">
-					{cursos.length > 0
-					  ? (
-					  cursos.map((curso) => (
+					{alumnos.length > 0 ? (
+						alumnos.map((alumno) => (
 							<div
-								key={curso.id}
-								className="border border-gray-100 py-2 px-4 rounded cursor-pointer hover:bg-cyan-50 capitalize flex justify-between items-center"
+								key={alumno.id}
+								className="border border-gray-100 py-2 px-4 rounded cursor-pointer hover:bg-gray-50 capitalize flex justify-between items-center"
 							>
-								{' '}
+								{" "}
 								<div>
 									<Popover placement="top-start">
 										<PopoverHandler>
 											<div className="w-full">
 												<div className="text-gray-600 flex gap-2 hover:text-cyan-800">
-													<Book />
-													{curso.nombre}
+													<User />
+													{alumno.nombre}{" "}
+													{alumno.apellido}
 												</div>
 											</div>
 										</PopoverHandler>
-										<PopoverContent className="bg-cyan-100 flex flex-col gap-2">
+										<PopoverContent className="bg-cyan-100">
 											<p className="flex gap-2 capitalize text-cyan-800">
 												<span className="font-medium">
-													Curso:
+													Nombre:
 												</span>
-												{curso.nombre}
+												{alumno.nombre}
 											</p>
-											<div className="flex flex-col gap-2 capitalize text-cyan-800 bg-cyan-200 p-2 rounded">
-												<h1 className="font-medium">
-													Grupos
-												</h1>
-												<div>
-													{curso.grupos.map(
-													  (
-													    {
-													      horario,
-													      capacidad,
-													      docente,
-													      nombre
-													    },
-													    index
-													  ) => (
-															<Accordion
-																open={
-																	openGrupo ===
-																	index + 1
-																}
-																key={index}
-																className="flex gap-2 border border-cyan-100 rounded p-1 flex-col"
-															>
-																<AccordionHeader
-																	onClick={() =>
-																	  handleOpenGrupo(
-																	    index +
-																				1
-																	  )
-																	}
-																	className="text-xs p-1"
-																>
-																	<span className="font-medium ">
-																		Grupo:{' '}
-																	</span>
-																	{nombre}
-																</AccordionHeader>
-																<AccordionBody>
-																	<div>
-																		<span className="font-medium">
-																			Docente:{' '}
-																		</span>
-																		{
-																			docente
-																		}
-																	</div>
-																	<div>
-																		<span className="font-medium">
-																			Capacidad:{' '}
-																		</span>
-																		{
-																			capacidad
-																		}
-																	</div>
-																	<div>
-																		<span className="font-medium">
-																			Dia:{' '}
-																		</span>
-																		{
-																			horario.dia
-																		}
-																	</div>
-																	<div className="flex gap-2">
-																		<span className="font-medium">
-																			<ClockOutline />
-																		</span>
-																		{
-																			horario.horaInicio
-																		}{' '}
-																		-{' '}
-																		{
-																			horario.horaFin
-																		}
-																	</div>
-																</AccordionBody>
-															</Accordion>
-													  )
-													)}
-												</div>
-											</div>
+											<p className="flex gap-2 capitalize text-cyan-800">
+												<span className="font-medium">
+													Apellido:
+												</span>
+												{alumno.apellido}
+											</p>
+											<p className="flex gap-2 capitalize text-cyan-800">
+												<span className="font-medium">
+													CUI:
+												</span>
+												{alumno.cui}
+											</p>
+											<p className="flex gap-2 text-cyan-800">
+												<span className="font-medium">
+													Email:
+												</span>
+												{alumno.correo}
+											</p>
 										</PopoverContent>
 									</Popover>
 								</div>
-								<div className="flex gap-2">
-									<Tooltip
-										content="Editar curso"
-										placement="top"
-										className="bg-light-blue-200"
-									>
-										<div>
-											<Link
-												href={`/admin/cursos/${año}/${curso.id}/editar`}
-											>
-												<IconButton
-													className="bg-white border shadow-none flex p-1 gap-1 font-thin items-center border-light-blue-100 text-light-blue-100 hover:bg-light-blue-400 hover:border-light-blue-400 hover:text-white focus:outline-none active:border-none"
-													as="a"
-												>
-													<EditPencil />
-												</IconButton>
-											</Link>
-										</div>
-									</Tooltip>
-									<Tooltip
-										content="Eliminar curso"
-										placement="top"
-										className="bg-red-200"
-									>
-										<IconButton
-											variant="outlined"
-											className="flex p-1 gap-1 font-thin items-center border-red-100 text-red-100 hover:bg-red-400 hover:border-red-400 hover:text-white"
-											onClick={() => {
-											  setOpen(!open)
-											}}
-										>
-											<Trash />
-										</IconButton>
-									</Tooltip>
-								</div>
+								<Link href={`/admin/matriculas/${año}/${alumno.id}`}>
+								<a className="flex gap-2 border border-cyan-600 p-1 rounded text-cyan-400 hover:bg-cyan-600 hover:text-white">
+									<PasteClipboard /> Matricular
+								</a>
+								</Link>
 							</div>
-					  ))
-					    )
-					  : (
+						))
+					) : (
 						<div className="text-center text-gray-500">
-							<p>No hay cursos registrados en este año</p>
+							<p>No hay alumnos registrados en este año</p>
 						</div>
-					    )}
+					)}
 				</div>
 			</div>
 		</AdminLayout>
-  )
+	);
 }
 
 export const getServerSideProps = async (context) => {
-  const { params } = context
-  const { año } = params
+	const { params } = context;
+	const { año } = params;
 
-  const res = await fetch(`http://localhost:3000/api/cursos/${año}`)
-  const cursos = await res.json()
+	const res = await fetch(`${process.env.API_URL}/api/alumnos/${año}`);
+	const alumnos = await res.json();
 
-  return {
-    props: {
-      año,
-      cursos
-    }
-  }
-}
+	return {
+		props: {
+			año,
+			alumnos,
+		},
+	};
+};

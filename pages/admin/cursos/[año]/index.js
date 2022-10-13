@@ -1,68 +1,68 @@
 import {
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
-  Breadcrumbs,
-  Button,
-  Dialog,
-  DialogBody,
-  IconButton,
-  Tooltip
-} from '@material-tailwind/react'
+	Accordion,
+	AccordionBody,
+	AccordionHeader,
+	Breadcrumbs,
+	Button,
+	Dialog,
+	DialogBody,
+	IconButton,
+	Tooltip,
+} from "@material-tailwind/react";
 import {
-  Book,
-  BookmarkBook,
-  Cancel,
-  ClockOutline,
-  EditPencil,
-  HomeSimpleDoor,
-  Trash,
-  WarningTriangleOutline
-} from 'iconoir-react'
-import Link from 'next/link'
-import { useState } from 'react'
-import { AdminLayout } from '../../../../components/Layout/admin/AdminLayout'
-import { useCursos } from '../../../../hook/useCursos'
+	Book,
+	BookmarkBook,
+	Cancel,
+	ClockOutline,
+	EditPencil,
+	HomeSimpleDoor,
+	Trash,
+	WarningTriangleOutline,
+} from "iconoir-react";
+import Link from "next/link";
+import { useState } from "react";
+import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
+import { useCursos } from "../../../../hook/useCursos";
 
 const initCurso = {
-	id: '',
-	año: '',
+	id: "",
+	año: "",
 	grupos: [],
-	nombre: '',
-}
+	nombre: "",
+};
 
-export default function Año ({ año, cursos }) {
-  const añoString =
-		año === '1'
-		  ? 'Primer año'
-		  : año === '2'
-		    ? 'Segundo año'
-		    : año === '3'
-		      ? 'Tercer año'
-		      : año === '4'
-		        ? 'Cuarto año'
-		        : 'Quinto año'
+export default function Año({ año, cursos }) {
+	const añoString =
+		año === "1"
+			? "Primer año"
+			: año === "2"
+			? "Segundo año"
+			: año === "3"
+			? "Tercer año"
+			: año === "4"
+			? "Cuarto año"
+			: "Quinto año";
 
-  const [open, setOpen] = useState(false)
-  const [idUser, setIdCurso] = useState(null)
+	const [open, setOpen] = useState(false);
+	const [idUser, setIdCurso] = useState(null);
 
-  const { deleteCurso } = useCursos()
+	const { deleteCurso } = useCursos();
 
-  const onDelete = async (id) => {
-    await deleteCurso(id)
-  }
+	const onDelete = async (id) => {
+		await deleteCurso(id);
+	};
 
-	const [openCurso, setOpenCurso] = useState(false)
-	const [cursoTemp, setCursoTemp] = useState(initCurso)
-	const handleOpenCurso = () => setOpenCurso(!openCurso)
+	const [openCurso, setOpenCurso] = useState(false);
+	const [cursoTemp, setCursoTemp] = useState(initCurso);
+	const handleOpenCurso = () => setOpenCurso(!openCurso);
 
-  const [openGrupo, setOpenGrupo] = useState(0)
+	const [openGrupo, setOpenGrupo] = useState(0);
 
-  const handleOpenGrupo = (value) => {
-    setOpenGrupo(openGrupo === value ? 0 : value)
-  }
+	const handleOpenGrupo = (value) => {
+		setOpenGrupo(openGrupo === value ? 0 : value);
+	};
 
-  return (
+	return (
 		<AdminLayout>
 			<Dialog
 				open={open}
@@ -166,15 +166,18 @@ export default function Año ({ año, cursos }) {
 												</span>
 												{capacidad}
 											</div>
-											{horario.map((dia, index)=> (
-												<div key={index} className="flex gap-2">
-												<span className="font-medium">
-													<ClockOutline />
-												</span>
-												{dia.dia} -
-												{dia.horaInicio} -{" "}
-												{dia.horaFin}
-											</div>))}
+											{horario.map((dia, index) => (
+												<div
+													key={index}
+													className="flex gap-2"
+												>
+													<span className="font-medium">
+														<ClockOutline />
+													</span>
+													{dia.dia} -{dia.horaInicio}{" "}
+													- {dia.horaFin}
+												</div>
+											))}
 										</AccordionBody>
 									</Accordion>
 								)
@@ -274,20 +277,20 @@ export default function Año ({ año, cursos }) {
 				</div>
 			</div>
 		</AdminLayout>
-  );
+	);
 }
 
 export const getServerSideProps = async (context) => {
-  const { params } = context
-  const { año } = params
+	const { params } = context;
+	const { año } = params;
 
-  const res = await fetch(`http://localhost:3000/api/cursos/${año}`)
-  const cursos = await res.json()
+	const res = await fetch(`${process.env.API_URL}/api/cursos/${año}`);
+	const cursos = await res.json();
 
-  return {
-    props: {
-      año,
-      cursos
-    }
-  }
-}
+	return {
+		props: {
+			año,
+			cursos,
+		},
+	};
+};

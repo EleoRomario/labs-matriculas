@@ -175,7 +175,7 @@ export const getServerSideProps = async (context) => {
   const { año, idCurso } = params
 
   const res = await fetch(
-		`http://localhost:3000/api/cursos/${año}/${idCurso}`
+		`${process.env.API_URL}/api/cursos/${año}/${idCurso}`
   )
   const curso = await res.json()
 
