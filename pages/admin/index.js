@@ -22,6 +22,12 @@ export default function Admin () {
 						Cursos
 					</a>
 				</Link>
+				<Link href="/admin/laboratorios">
+					<a className="flex gap-2 w-52 border border-light-blue-100 rounded border-l-4 p-4 hover:border-light-blue-600 cursor-pointer text-light-blue-100 hover:text-light-blue-600">
+						<PasteClipboard />
+						Laboratorios
+					</a>
+				</Link>
 				<Link href="/admin/matriculas">
 					<a className="flex gap-2 w-52 border border-light-blue-100 rounded border-l-4 p-4 hover:border-light-blue-600 cursor-pointer text-light-blue-100 hover:text-light-blue-600">
 						<PasteClipboard />

@@ -3,12 +3,14 @@ import {
 	Popover,
 	PopoverContent,
 	PopoverHandler,
+	Tooltip,
 } from "@material-tailwind/react";
-import { HomeSimpleDoor, PasteClipboard, User } from "iconoir-react";
+import { Check, HomeSimpleDoor, MultiplePagesDelete, PasteClipboard, User } from "iconoir-react";
 import Link from "next/link";
 import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
+import { useMatricula } from "../../../../hook/useMatricula";
 
-export default function Año({ año, alumnos }) {
+export default function Año({ año, laboratorios }) {
 	const añoString =
 		año === "1"
 			? "Primer año"
@@ -20,6 +22,8 @@ export default function Año({ año, alumnos }) {
 			? "Cuarto año"
 			: "Quinto año";
 
+			const {deleteLaboratorio}= useMatricula();
+
 	return (
 		<AdminLayout>
 			<Breadcrumbs fullWidth>
@@ -28,19 +32,27 @@ export default function Año({ año, alumnos }) {
 						<HomeSimpleDoor />{" "}
 					</a>
 				</Link>
-				<Link href="/admin/matriculas">
+				<Link href="/admin/laboratorios">
 					<a className="opacity-60">Años</a>
 				</Link>
 				<a>Alumnos ({año}) </a>
 			</Breadcrumbs>
 			<div className="w-full flex flex-col gap-3 border border-gray-100 p-4 rounded overflow-y-scroll">
 				<div className="w-full flex justify-between items-center">
-					<p>Alumnos del {añoString}</p>
+					<h1 className="flex flex-row gap-2 text-green-600">
+						<Check /> Alumnos de {añoString.toLowerCase()} con
+						laboratorios asignados
+					</h1>
+					<Link href={`/admin/laboratorios/${año}/alumnos`}>
+						<a className="flex items-center gap-2 border border-green-400 p-1 rounded text-green-400 hover:bg-green-400 hover:text-white">
+							<PasteClipboard /> Asignar nuevo
+						</a>
+					</Link>
 				</div>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<div className="w-full flex flex-col gap-3">
-					{alumnos.length > 0 ? (
-						alumnos.map((alumno) => (
+					{laboratorios.length > 0 ? (
+						laboratorios.map((alumno) => (
 							<div
 								key={alumno.id}
 								className="border border-gray-100 py-2 px-4 rounded cursor-pointer hover:bg-gray-50 capitalize flex justify-between items-center"
@@ -85,11 +97,18 @@ export default function Año({ año, alumnos }) {
 										</PopoverContent>
 									</Popover>
 								</div>
-								<Link href={`/admin/matriculas/${año}/${alumno.id}`}>
-								<a className="flex gap-2 border border-cyan-600 p-1 rounded text-cyan-400 hover:bg-cyan-600 hover:text-white">
-									<PasteClipboard /> Matricular
-								</a>
-								</Link>
+								<div className="flex flex-raw items-center gap-2 text-green-700">
+									<Check />
+									<h1>Asignado</h1>
+									<Tooltip content="Eliminar">
+										<a
+											className="flex gap-2 border border-red-200 p-1 rounded hover:bg-red-400 hover:text-white text-red-200"
+											onClick={() => deleteLaboratorio}
+										>
+											<MultiplePagesDelete />
+										</a>
+									</Tooltip>
+								</div>
 							</div>
 						))
 					) : (
@@ -107,13 +126,13 @@ export const getServerSideProps = async (context) => {
 	const { params } = context;
 	const { año } = params;
 
-	const res = await fetch(`${process.env.API_URL}/api/alumnos/${año}`);
-	const alumnos = await res.json();
+	const res = await fetch(`${process.env.API_URL}/api/laboratorios/${año}`);
+	const laboratorios = await res.json();
 
 	return {
 		props: {
 			año,
-			alumnos,
+			laboratorios,
 		},
 	};
 };
