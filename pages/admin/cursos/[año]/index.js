@@ -5,15 +5,14 @@ import {
   Breadcrumbs,
   Button,
   Dialog,
+  DialogBody,
   IconButton,
-  Popover,
-  PopoverContent,
-  PopoverHandler,
   Tooltip
 } from '@material-tailwind/react'
 import {
   Book,
   BookmarkBook,
+  Cancel,
   ClockOutline,
   EditPencil,
   HomeSimpleDoor,
@@ -24,6 +23,13 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { AdminLayout } from '../../../../components/Layout/admin/AdminLayout'
 import { useCursos } from '../../../../hook/useCursos'
+
+const initCurso = {
+	id: '',
+	año: '',
+	grupos: [],
+	nombre: '',
+}
 
 export default function Año ({ año, cursos }) {
   const añoString =
@@ -46,6 +52,10 @@ export default function Año ({ año, cursos }) {
     await deleteCurso(id)
   }
 
+	const [openCurso, setOpenCurso] = useState(false)
+	const [cursoTemp, setCursoTemp] = useState(initCurso)
+	const handleOpenCurso = () => setOpenCurso(!openCurso)
+
   const [openGrupo, setOpenGrupo] = useState(0)
 
   const handleOpenGrupo = (value) => {
@@ -57,12 +67,12 @@ export default function Año ({ año, cursos }) {
 			<Dialog
 				open={open}
 				handler={() => {
-				  setOpen(!open)
-				  setIdCurso(null)
+					setOpen(!open);
+					setIdCurso(null);
 				}}
 				animate={{
-				  mount: { scale: 1, y: 0 },
-				  unmount: { scale: 0.9, y: -100 }
+					mount: { scale: 1, y: 0 },
+					unmount: { scale: 0.9, y: -100 },
 				}}
 				className="p-4 flex flex-col gap-3 items-center"
 			>
@@ -76,8 +86,8 @@ export default function Año ({ año, cursos }) {
 						color="gray"
 						size="sm"
 						onClick={() => {
-						  setOpen(!open)
-						  setIdCurso(null)
+							setOpen(!open);
+							setIdCurso(null);
 						}}
 					>
 						Cancelar
@@ -86,19 +96,97 @@ export default function Año ({ año, cursos }) {
 						color="red"
 						size="sm"
 						onClick={() => {
-						  onDelete(idUser)
-						  setOpen(!open)
-						  setIdCurso(null)
+							onDelete(idUser);
+							setOpen(!open);
+							setIdCurso(null);
 						}}
 					>
 						Eliminar
 					</Button>
 				</div>
 			</Dialog>
+			<Dialog
+				open={openCurso}
+				handler={() => {
+					setOpenCurso(!openCurso);
+					setCursoTemp(initCurso);
+				}}
+				animate={{
+					mount: { scale: 1, y: 0 },
+					unmount: { scale: 0.9, y: -100 },
+				}}
+				className="p-4 flex flex-col gap-3 items-center relative"
+			>
+				<DialogBody className="flex flex-col w-full h-full">
+					<Cancel
+						className="absolute -top-2 -right-2 hover:text-unsa-50 w-10 h-10 cursor-pointer"
+						onClick={() => {
+							setOpenCurso(!openCurso);
+							setCursoTemp(initCurso);
+						}}
+					/>
+					<p className="flex gap-2 capitalize text-cyan-800">
+						<span className="font-medium">Curso:</span>
+						{cursoTemp.nombre}
+					</p>
+					<div className="flex flex-col gap-2 capitalize text-cyan-800 border-cyan-100 border p-2 rounded">
+						<h1 className="font-medium">Grupos</h1>
+						<div>
+							{cursoTemp.grupos.map(
+								(
+									{ horario, capacidad, docente, nombre },
+									index
+								) => (
+									<Accordion
+										open={openGrupo === index + 1}
+										key={index}
+										className="flex border border-gray-200 border-l-8 gap-2 p-1 flex-col"
+									>
+										<AccordionHeader
+											onClick={() =>
+												handleOpenGrupo(index + 1)
+											}
+											className="text-xs p-1"
+										>
+											<span className="font-medium ">
+												Grupo:{" "}
+											</span>
+											{nombre}
+										</AccordionHeader>
+										<AccordionBody className="p-1">
+											<div>
+												<span className="font-medium">
+													Docente:{" "}
+												</span>
+												{docente}
+											</div>
+											<div>
+												<span className="font-medium">
+													Capacidad:{" "}
+												</span>
+												{capacidad}
+											</div>
+											{horario.map((dia, index)=> (
+												<div key={index} className="flex gap-2">
+												<span className="font-medium">
+													<ClockOutline />
+												</span>
+												{dia.dia} -
+												{dia.horaInicio} -{" "}
+												{dia.horaFin}
+											</div>))}
+										</AccordionBody>
+									</Accordion>
+								)
+							)}
+						</div>
+					</div>
+				</DialogBody>
+			</Dialog>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
-						<HomeSimpleDoor />{' '}
+						<HomeSimpleDoor />{" "}
 					</a>
 				</Link>
 				<Link href="/admin/cursos">
@@ -122,113 +210,23 @@ export default function Año ({ año, cursos }) {
 				</div>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<div className="w-full flex flex-col gap-3">
-					{cursos.length > 0
-					  ? (
-					  cursos.map((curso) => (
+					{cursos.length > 0 ? (
+						cursos.map((curso) => (
 							<div
 								key={curso.id}
 								className="border border-gray-100 py-2 px-4 rounded cursor-pointer hover:bg-cyan-50 capitalize flex justify-between items-center"
 							>
-								{' '}
-								<div>
-									<Popover placement="top-start">
-										<PopoverHandler>
-											<div className="w-full">
-												<div className="text-gray-600 flex gap-2 hover:text-cyan-800">
-													<Book />
-													{curso.nombre}
-												</div>
-											</div>
-										</PopoverHandler>
-										<PopoverContent className="bg-cyan-100 flex flex-col gap-2">
-											<p className="flex gap-2 capitalize text-cyan-800">
-												<span className="font-medium">
-													Curso:
-												</span>
-												{curso.nombre}
-											</p>
-											<div className="flex flex-col gap-2 capitalize text-cyan-800 bg-cyan-200 p-2 rounded">
-												<h1 className="font-medium">
-													Grupos
-												</h1>
-												<div>
-													{curso.grupos.map(
-													  (
-													    {
-													      horario,
-													      capacidad,
-													      docente,
-													      nombre
-													    },
-													    index
-													  ) => (
-															<Accordion
-																open={
-																	openGrupo ===
-																	index + 1
-																}
-																key={index}
-																className="flex gap-2 border border-cyan-100 rounded p-1 flex-col"
-															>
-																<AccordionHeader
-																	onClick={() =>
-																	  handleOpenGrupo(
-																	    index +
-																				1
-																	  )
-																	}
-																	className="text-xs p-1"
-																>
-																	<span className="font-medium ">
-																		Grupo:{' '}
-																	</span>
-																	{nombre}
-																</AccordionHeader>
-																<AccordionBody>
-																	<div>
-																		<span className="font-medium">
-																			Docente:{' '}
-																		</span>
-																		{
-																			docente
-																		}
-																	</div>
-																	<div>
-																		<span className="font-medium">
-																			Capacidad:{' '}
-																		</span>
-																		{
-																			capacidad
-																		}
-																	</div>
-																	<div>
-																		<span className="font-medium">
-																			Dia:{' '}
-																		</span>
-																		{
-																			horario.dia
-																		}
-																	</div>
-																	<div className="flex gap-2">
-																		<span className="font-medium">
-																			<ClockOutline />
-																		</span>
-																		{
-																			horario.horaInicio
-																		}{' '}
-																		-{' '}
-																		{
-																			horario.horaFin
-																		}
-																	</div>
-																</AccordionBody>
-															</Accordion>
-													  )
-													)}
-												</div>
-											</div>
-										</PopoverContent>
-									</Popover>
+								<div
+									className="w-full"
+									onClick={() => {
+										handleOpenCurso();
+										setCursoTemp(curso);
+									}}
+								>
+									<div className="text-gray-600 flex gap-2 hover:text-cyan-800">
+										<Book />
+										{curso.nombre}
+									</div>
 								</div>
 								<div className="flex gap-2">
 									<Tooltip
@@ -258,8 +256,8 @@ export default function Año ({ año, cursos }) {
 											variant="outlined"
 											className="flex p-1 gap-1 font-thin items-center border-red-100 text-red-100 hover:bg-red-400 hover:border-red-400 hover:text-white"
 											onClick={() => {
-											  setOpen(!open)
-											  setIdCurso(curso.id)
+												setOpen(!open);
+												setIdCurso(curso.id);
 											}}
 										>
 											<Trash />
@@ -267,17 +265,16 @@ export default function Año ({ año, cursos }) {
 									</Tooltip>
 								</div>
 							</div>
-					  ))
-					    )
-					  : (
+						))
+					) : (
 						<div className="text-center text-gray-500">
 							<p>No hay cursos registrados en este año</p>
 						</div>
-					    )}
+					)}
 				</div>
 			</div>
 		</AdminLayout>
-  )
+  );
 }
 
 export const getServerSideProps = async (context) => {
