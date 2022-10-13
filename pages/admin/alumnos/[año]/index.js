@@ -112,7 +112,7 @@ export default function Año ({ año, alumnos }) {
 				</div>
 				<div className="w-full h-[1px] bg-blue-gray-100" />
 				<div className="w-full flex flex-col gap-3">
-					{alumnos.legth > 0
+					{alumnos.length > 0
 					  ? (
 					  alumnos.map((alumno) => (
 							<div
@@ -212,8 +212,7 @@ export default function Año ({ año, alumnos }) {
 export const getServerSideProps = async (context) => {
   const { params } = context
   const { año } = params
-
-  const res = await fetch(`http://localhost:3000/api/alumnos/${año}`)
+  const res = await fetch(`${process.env.API_URL}/api/alumnos/${año}`);
   const alumnos = await res.json()
 
   return {
