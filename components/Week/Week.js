@@ -2,39 +2,68 @@ import { useEffect, useState } from "react";
 import { dias, horas, horasFin, horasInicio } from "../../utils/week";
 import { PopoverCurso } from "./PopoverCurso";
 
-export const Week = ({cursos}) => {
-	
-  const [matrix, setMatrix] = useState(
-		Array.from({length:15}, () => Array.from({length:5}, () => null))
-  );
+export const Week = ({ cursos }) => {
+	const [matrix, setMatrix] = useState(
+		Array.from({ length: 15 }, () => Array.from({ length: 5 }, () => null))
+	);
 
-	const horasDias = (curso) =>{
+	const [horasRegistradas, setHorasRegistradas] = useState([]);
+
+	const horasDias = (curso) => {
 		curso.horario.forEach((d) => {
 			const { dia, horaInicio, horaFin } = d;
 			const indexDia = dias.indexOf(dia);
 			const indexHoraInicio = horasInicio.indexOf(horaInicio);
 			const indexHoraFin = horasFin.indexOf(horaFin);
-			addDia(indexDia,indexHoraInicio,indexHoraFin, curso)
-		})
-	}
+			const hora = {
+				curso: curso.curso,
+				indexDia,
+				indexHoraInicio,
+				indexHoraFin,
+			};
+			const exist = horasRegistradas.find((h) => h.curso === curso.curso);
+			if (exist !== undefined) {
+				const newHorasRegistradas = horasRegistradas.filter(
+					(h) => h.curso !== curso.curso
+				);
+				setHorasRegistradas([...newHorasRegistradas, hora]);
+				deleteDia(
+					exist.indexDia,
+					exist.indexHoraInicio,
+					exist.indexHoraFin,
+					curso
+				);
+				addDia(indexDia, indexHoraInicio, indexHoraFin, curso);
+			} else {
+				setHorasRegistradas((horasRegistradas) => [
+					...horasRegistradas,
+					hora,
+				]);
+				addDia(indexDia, indexHoraInicio, indexHoraFin, curso);
+			}
+		});
+	};
 
 	useEffect(() => {
-		cursos.forEach(curso => {
-			horasDias(curso)
-		})
-		// const labs = horario.map((lab) => lab.laboratorio);
-		// setLaboratorios(labs);
+		cursos.forEach((curso) => {
+			horasDias(curso);
+		});
 	}, [cursos]);
 
-  const addDia = (dia, horai,horaf, curso) => {
-		const dHora = [...matrix]
-    console.log("🚀 ~ file: Week.js ~ line 35 ~ addDia ~ dia, horai,horaf", dia, horai,horaf)
-		dHora[horai][dia] = <PopoverCurso data={curso} />
-		dHora[horaf][dia] = <PopoverCurso data={curso} />
-    setMatrix(dHora)
-  }
+	const addDia = (dia, horai, horaf, curso) => {
+		const dHora = [...matrix];
+		dHora[horai][dia] = <PopoverCurso data={curso} />;
+		dHora[horaf][dia] = <PopoverCurso data={curso} />;
+		setMatrix(dHora);
+	};
+	const deleteDia = (dia, horai, horaf) => {
+		const dHora = [...matrix];
+		dHora[horai][dia] = null;
+		dHora[horaf][dia] = null;
+		setMatrix(dHora);
+	};
 
-  return (
+	return (
 		<div className="bg-gray-100 rounded p-2">
 			<div className="grid grid-cols-6 gap-1 my-2">
 				<div></div>
@@ -66,8 +95,13 @@ export const Week = ({cursos}) => {
 					{matrix.map((row, rowIndex) => (
 						<div key={rowIndex} className="grid grid-cols-5 gap-1">
 							{row.map((column, columnIndex) => (
-								<div key={columnIndex} className="bg-gray-50 h-[23px]">
-									<p className="bg-green-50 shadow-sm">{column}</p>
+								<div
+									key={columnIndex}
+									className="bg-gray-50 h-[23px]"
+								>
+									<p className="bg-green-50 shadow-sm">
+										{column}
+									</p>
 								</div>
 							))}
 						</div>
@@ -75,5 +109,5 @@ export const Week = ({cursos}) => {
 				</div>
 			</div>
 		</div>
-  );
-}
+	);
+};

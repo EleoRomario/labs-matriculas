@@ -2,7 +2,6 @@ import { Popover, PopoverContent, PopoverHandler } from "@material-tailwind/reac
 import { BookmarkEmpty } from "iconoir-react"
 
 export const PopoverCurso = ({ data }) => {
-	console.log("🚀 ~ file: PopoverCurso.js ~ line 5 ~ PopoverCurso ~ data", data)
 	const { curso, docente, nombre:grupo, color} = data;
 
 	const getContrastYIQ = (hexcolor) => {
@@ -10,7 +9,7 @@ export const PopoverCurso = ({ data }) => {
 		const g = parseInt(hexcolor.substr(2, 2), 16);
 		const b = parseInt(hexcolor.substr(4, 2), 16);
 		const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-		return yiq >= 128 ? "#000" : "#fff";
+		return yiq >= 128 ? "#fff" : "#000";
 	}
 
 	return (
