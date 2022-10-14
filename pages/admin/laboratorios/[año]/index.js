@@ -5,10 +5,16 @@ import {
 	PopoverHandler,
 	Tooltip,
 } from "@material-tailwind/react";
-import { Check, HomeSimpleDoor, MultiplePagesDelete, PasteClipboard, User } from "iconoir-react";
+import {
+	Check,
+	HomeSimpleDoor,
+	MultiplePagesDelete,
+	PasteClipboard,
+	User,
+} from "iconoir-react";
 import Link from "next/link";
 import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
-import { useMatricula } from "../../../../hook/useMatricula";
+import { useLaboratorio } from "../../../../hook/useLaboratorio";
 
 export default function Año({ año, laboratorios }) {
 	const añoString =
@@ -22,7 +28,7 @@ export default function Año({ año, laboratorios }) {
 			? "Cuarto año"
 			: "Quinto año";
 
-			const {deleteLaboratorio}= useMatricula();
+	const { deleteLaboratorio } = useLaboratorio();
 
 	return (
 		<AdminLayout>

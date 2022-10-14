@@ -1,12 +1,16 @@
 import { Button} from '@material-tailwind/react'
 import { PasteClipboard } from 'iconoir-react'
 import Link from 'next/link'
+import { useAuthContext } from '../../auth/AuthContext'
 import { AlumnoLayout } from '../../components/Layout/alumno/AlumnoLayout'
 
 export default function Alumno () {
+
+	const { alumno } = useAuthContext();
+
   return (
 		<AlumnoLayout>
-			<Link href="/alumno/matricula">
+			<Link href={`/alumno/${alumno.uid}`}>
 				<Button
 					as="a"
 					color="blue"

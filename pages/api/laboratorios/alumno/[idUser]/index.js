@@ -1,18 +1,17 @@
-import { firestore } from "../../../../firebase/firebase-admin";
-
+import {firestore} from "../../../../../firebase/firebase-admin"
 
 export default function handler(req, res) {
 	const { query } = req;
-	const { año } = query;
+	const { idUser } = query;
 	firestore
-		.collection('laboratorios')
-		.where('año', '==', año)
+		.collection("laboratorios")
+		.where("id", "==", idUser)
 		.get()
 		.then((querySnapshot) => {
 			const laboratorios = [];
 			querySnapshot.forEach((doc) => {
-        laboratorios.push({
-          id: doc.id,
+				laboratorios.push({
+					id: doc.id,
 					...doc.data(),
 				});
 			});

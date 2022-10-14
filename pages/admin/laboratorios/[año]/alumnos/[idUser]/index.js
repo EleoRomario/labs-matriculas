@@ -11,7 +11,7 @@ import { ClipboardCheck, HomeSimpleDoor, SaveFloppyDisk } from "iconoir-react";
 import Link from "next/link";
 import { AdminLayout } from "../../../../../../components/Layout/admin/AdminLayout";
 import { Loading } from "../../../../../../components/Loading/Loading";
-import { useMatricula } from "../../../../../../hook/useMatricula";
+import { useLaboratorio } from "../../../../../../hook/useLaboratorio";
 
 export default function Alumno({ año, alumno, cursos }) {
 	const { nombre, apellido, cui, correo } = alumno;
@@ -36,8 +36,8 @@ export default function Alumno({ año, alumno, cursos }) {
 		cursos: cursosMatriculados,
 		deleteCurso,
 		addLaboratorio,
-		loading
-	} = useMatricula();
+		loading,
+	} = useLaboratorio();
 
 	const checkCurso = (curso, e) => {
 		if (e.target.checked) {
@@ -48,13 +48,13 @@ export default function Alumno({ año, alumno, cursos }) {
 		}
 	};
 
-	const onSubmit = async () =>{
+	const onSubmit = async () => {
 		const laboratorio = {
 			...alumno,
 			laboratorios: cursosMatriculados,
 		};
-		await addLaboratorio(laboratorio)
-	}
+		await addLaboratorio(laboratorio);
+	};
 
 	return (
 		<AdminLayout>
