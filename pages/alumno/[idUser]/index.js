@@ -1,6 +1,7 @@
 import { Breadcrumbs, Button, Radio } from "@material-tailwind/react";
 import { BookmarkBook, Check, HomeSimpleDoor } from "iconoir-react";
 import Link from "next/link";
+import { useState } from "react";
 import { AlumnoLayout } from "../../../components/Layout/alumno/AlumnoLayout";
 import { Week } from "../../../components/Week/Week";
 import { useMatricula } from "../../../hook/alumno/useMatricula";
@@ -10,9 +11,23 @@ export default function Matricula({ alumno }) {
 
 	const { cursos, getCursos } = useMatricula();
 
-	console.log("🚀 ~ file: index.js ~ line 17 ~ Matricula ~ cursos", cursos)
-
-
+	const [grupoCurso, setGrupoCurso] = useState([])
+	
+	const changeGrupo = (grupo,curso,color) => {
+		const exits = grupoCurso.find((c) => c.curso === curso)
+		const grupoAlumno = {
+			...grupo,
+			curso,
+			color,
+		}
+		if(exits===undefined){
+			setGrupoCurso([...grupoCurso, grupoAlumno]);
+		}else{
+			const newGrupoCurso = grupoCurso.filter((c) => c.curso !== curso)
+			setGrupoCurso([...newGrupoCurso, grupoAlumno]);
+		}
+	}
+	
 	return (
 		<AlumnoLayout>
 			<Breadcrumbs fullWidth>
@@ -37,35 +52,45 @@ export default function Matricula({ alumno }) {
 					</Button>
 					<div className="flex flex-col gap-2 ">
 						{cursos.length > 0 ? (
-							cursos.map(({ nombre, grupos, color }, indexC) => (
-								<div
-									style={{ borderLeftColor: color }}
-									className={`rounded border p-2 border-l-8 border-gray-300 text-gray-600`}
-									key={indexC}
-								>
-									<h1>{nombre}</h1>
-									<div>
-										{grupos.map(({ nombre }, index) => (
-											<Radio
-												color="light-blue"
-												key={index}
-												id="radio-1"
-												name={indexC}
-												label={nombre}
-												icon ={
-													<Check />
-												}
-											/>
-										))}
+							cursos.map(
+								(
+									{ nombre: nombreC, grupos, color },
+									indexC
+								) => (
+									<div
+										style={{ borderLeftColor: color }}
+										className={`rounded border p-2 border-l-8 border-gray-300 text-gray-600`}
+										key={indexC}
+									>
+										<h1>{nombreC}</h1>
+										<div>
+											{grupos.map((grupo, index) => (
+												<Radio
+													color="light-blue"
+													key={index}
+													id="radio-1"
+													name={indexC}
+													label={grupo.nombre}
+													icon={<Check />}
+													onChange={() =>
+														changeGrupo(
+															grupo,
+															nombreC,
+															color
+														)
+													}
+												/>
+											))}
+										</div>
 									</div>
-								</div>
-							))
+								)
+							)
 						) : (
 							<></>
 						)}
 					</div>
 				</div>
-				<Week />
+				<Week cursos={grupoCurso} />
 			</div>
 		</AlumnoLayout>
 	);
