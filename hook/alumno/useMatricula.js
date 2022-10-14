@@ -13,7 +13,6 @@ export const useMatricula = () => {
       const docSnap = await getDoc(docRef)
       gFinal.push(docSnap.data())
     })
-    console.log("🚀 ~ file: useMatricula.js ~ line 17 ~ getCursos ~ gFinal", gFinal)
     return gFinal;
 	};
 
