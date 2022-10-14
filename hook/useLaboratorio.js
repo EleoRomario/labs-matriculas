@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -29,13 +29,25 @@ export const useLaboratorio = () => {
 	};
 
 	const deleteLaboratorio = async (id) => {
-		setLoading(true);
-		await deleteDoc(doc(db, "laboratorios", id)).then(() => {
-			toast.success("Alumno eliminado correctamente");
-			setLoading(false);
-			router.push(`/admin/matriculas/${año}`);
+		const docSnap = await getDocs(collection(db,"laboratorios"))
+		
+		docSnap.forEach(async (docLab) => {
+			if (docLab.data().id === id) {
+				await deleteDoc(doc(db, "laboratorios", docLab.id));
+				toast.success("Laboratorio eliminado correctamente");
+				router.push(`/admin/laboratorios/${año}`);
+			}
 		});
 	};
+
+
+	// 	setLoading(true);
+	// 	await deleteDoc(doc(db, "laboratorios", id)).then(() => {
+	// 		toast.success("Alumno eliminado correctamente");
+	// 		setLoading(false);
+	// 		router.push(`/admin/matriculas/${año}`);
+	// 	});
+	// };
 
 	return {
 		addCurso,

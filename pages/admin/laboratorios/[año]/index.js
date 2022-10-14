@@ -1,5 +1,7 @@
 import {
 	Breadcrumbs,
+	Button,
+	Dialog,
 	Popover,
 	PopoverContent,
 	PopoverHandler,
@@ -11,8 +13,10 @@ import {
 	MultiplePagesDelete,
 	PasteClipboard,
 	User,
+	WarningTriangleOutline,
 } from "iconoir-react";
 import Link from "next/link";
+import { useState } from "react";
 import { AdminLayout } from "../../../../components/Layout/admin/AdminLayout";
 import { useLaboratorio } from "../../../../hook/useLaboratorio";
 
@@ -29,9 +33,59 @@ export default function Año({ año, laboratorios }) {
 			: "Quinto año";
 
 	const { deleteLaboratorio } = useLaboratorio();
+	const [open, setOpen] = useState(false);
+	const [idUser, setIdLaboratorio] = useState(null);
+
+	const onDelete = async (id) => {
+		await deleteLaboratorio(id);
+	}
 
 	return (
 		<AdminLayout>
+			<Dialog
+				open={open}
+				handler={() => {
+					setOpen(!open);
+					setIdLaboratorio(null);
+				}}
+				animate={{
+					mount: { scale: 1, y: 0 },
+					unmount: { scale: 0.9, y: -100 },
+				}}
+				className="p-4 flex flex-col gap-3 items-center"
+			>
+				<div className="flex gap-2 flex-row items-center">
+					<WarningTriangleOutline color="red" className="" />
+					<p>
+						¿Estás seguro de eliminar esta asignacion de
+						laboratorio?
+					</p>
+				</div>
+				<div className="flex justify-end gap-2 mt-4">
+					<Button
+						variant="outlined"
+						color="gray"
+						size="sm"
+						onClick={() => {
+							setOpen(!open);
+							setIdLaboratorio(null);
+						}}
+					>
+						Cancelar
+					</Button>
+					<Button
+						color="red"
+						size="sm"
+						onClick={() => {
+							onDelete(idUser);
+							setOpen(!open);
+							setIdLaboratorio(null);
+						}}
+					>
+						Eliminar
+					</Button>
+				</div>
+			</Dialog>
 			<Breadcrumbs fullWidth>
 				<Link href="/admin">
 					<a className="opacity-60">
@@ -109,7 +163,8 @@ export default function Año({ año, laboratorios }) {
 									<Tooltip content="Eliminar">
 										<a
 											className="flex gap-2 border border-red-200 p-1 rounded hover:bg-red-400 hover:text-white text-red-200"
-											onClick={() => deleteLaboratorio}
+											onClick={() => {setOpen(!open);
+												setIdLaboratorio(alumno.id);}}
 										>
 											<MultiplePagesDelete />
 										</a>
