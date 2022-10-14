@@ -1,4 +1,4 @@
-import { Breadcrumbs } from "@material-tailwind/react";
+import { Breadcrumbs, Radio } from "@material-tailwind/react";
 import { HomeSimpleDoor } from "iconoir-react";
 import Link from "next/link";
 import { AlumnoLayout } from "../../../components/Layout/alumno/AlumnoLayout";
@@ -23,6 +23,19 @@ export default function Matricula({ alumno }) {
 				<a>Cursos </a>
 			</Breadcrumbs>
 			<div className="border border-gray-200 rounded-lg w-full p-2 overflow-y-scroll">
+				<div className="p-2">
+					<h1 className="text-gray-700">Selecciona los grupos en los que quieres matricularte:</h1>
+					<div className="flex flex-col gap-2">
+						<div className="rounded border border-teal-500 p-2 border-l-4">
+							<h1>Curso 1</h1>
+							<div>
+								<Radio id="radio-1" name="radio" label="A"/>
+								<Radio id="radio-1" name="radio" label="B"/>
+								<Radio id="radio-1" name="radio" label="C"/>
+							</div>
+						</div>
+					</div>
+				</div>
 				<Week />
 			</div>
 		</AlumnoLayout>
