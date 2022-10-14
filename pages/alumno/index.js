@@ -17,7 +17,7 @@ export default function Alumno () {
 					className="flex justify-center items-center gap-2"
 				>
 					<PasteClipboard />
-					<span className="font-light">Ver mis cursos</span>
+					<span className="font-light">Matricularme</span>
 				</Button>
 			</Link>
 			<div className="border border-gray-200 rounded-lg w-full p-2">

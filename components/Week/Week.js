@@ -6,7 +6,6 @@ export const Week = () => {
   const [matrix, setMatrix] = useState(
 		Array.from({length:15}, () => Array.from({length:5}, () => null))
   );
-  console.log("🚀 ~ file: Week.js ~ line 8 ~ Week ~ matrix", matrix)
   const addDia = () => {
     const dia = [...matrix]
     dia[3][4] = "Hola"

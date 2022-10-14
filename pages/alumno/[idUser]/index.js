@@ -1,16 +1,17 @@
-import { Breadcrumbs, Radio } from "@material-tailwind/react";
-import { HomeSimpleDoor } from "iconoir-react";
+import { Breadcrumbs, Button, Radio } from "@material-tailwind/react";
+import { BookmarkBook, Check, HomeSimpleDoor } from "iconoir-react";
 import Link from "next/link";
 import { AlumnoLayout } from "../../../components/Layout/alumno/AlumnoLayout";
 import { Week } from "../../../components/Week/Week";
-// import { useMatricula } from "../../../hook/alumno/useMatricula";
+import { useMatricula } from "../../../hook/alumno/useMatricula";
 
 export default function Matricula({ alumno }) {
-	// const { laboratorios } = alumno[0];
+	const { laboratorios } = alumno[0];
 
-	// const { getCursos } = useMatricula();
+	const { cursos, getCursos } = useMatricula();
 
-	// const cursos = getCursos(laboratorios);
+	console.log("🚀 ~ file: index.js ~ line 17 ~ Matricula ~ cursos", cursos)
+
 
 	return (
 		<AlumnoLayout>
@@ -20,20 +21,48 @@ export default function Matricula({ alumno }) {
 						<HomeSimpleDoor />{" "}
 					</a>
 				</Link>
-				<a>Cursos </a>
+				<a>Cursos</a>
 			</Breadcrumbs>
 			<div className="border border-gray-200 rounded-lg w-full p-2 overflow-y-scroll">
-				<div className="p-2">
-					<h1 className="text-gray-700">Selecciona los grupos en los que quieres matricularte:</h1>
-					<div className="flex flex-col gap-2">
-						<div className="rounded border border-teal-500 p-2 border-l-4">
-							<h1>Curso 1</h1>
-							<div>
-								<Radio id="radio-1" name="radio" label="A"/>
-								<Radio id="radio-1" name="radio" label="B"/>
-								<Radio id="radio-1" name="radio" label="C"/>
-							</div>
-						</div>
+				<div className="p-2 flex flex-col gap-4 justify-start">
+					<h1 className="text-gray-700">
+						Selecciona los grupos en los que quieres matricularte:
+					</h1>
+					<Button
+						className="flex items-center bg-light-blue-600 max-w-fit font-extralight gap-2"
+						onClick={() => getCursos(laboratorios)}
+					>
+						<BookmarkBook />
+						Ver mis cursos
+					</Button>
+					<div className="flex flex-col gap-2 ">
+						{cursos.length > 0 ? (
+							cursos.map(({ nombre, grupos, color }, indexC) => (
+								<div
+									style={{ borderLeftColor: color }}
+									className={`rounded border p-2 border-l-8 border-gray-300 text-gray-600`}
+									key={indexC}
+								>
+									<h1>{nombre}</h1>
+									<div>
+										{grupos.map(({ nombre }, index) => (
+											<Radio
+												color="light-blue"
+												key={index}
+												id="radio-1"
+												name={indexC}
+												label={nombre}
+												icon ={
+													<Check />
+												}
+											/>
+										))}
+									</div>
+								</div>
+							))
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 				<Week />

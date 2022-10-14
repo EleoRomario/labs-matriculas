@@ -1,20 +1,22 @@
 import { doc, getDoc } from "firebase/firestore";
+import randomColor from "randomcolor";
 import { useState } from "react";
 import { db } from "../../firebase/firebase-config";
 
 export const useMatricula = () => {
 
   const [cursos, setCursos] = useState([])
-  
 	const getCursos = (laboratorios) => {
-    const gFinal = []
-    laboratorios.map(async (lab) => {
-      const docRef = doc(db, "cursos", lab.id)
-      const docSnap = await getDoc(docRef)
-      gFinal.push(docSnap.data())
-    })
-    return gFinal;
+    setCursos([])
+		laboratorios.map(async(lab) => {
+      const color = randomColor()
+			const docRef = doc(db, "cursos", lab.id);
+			const docSnap = await getDoc(docRef);
+      const data = docSnap.data()
+      setCursos((cursos) => [...cursos,{...data,color}])
+		});
 	};
 
-	return { getCursos, cursos, setCursos };
+
+	return { cursos, getCursos };
 };
