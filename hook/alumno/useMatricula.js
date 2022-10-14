@@ -1,11 +1,15 @@
-import { doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 import randomColor from "randomcolor";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { db } from "../../firebase/firebase-config";
 
 export const useMatricula = () => {
 
   const [cursos, setCursos] = useState([])
+	const [loading, setLoading] = useState(false)
+
 	const getCursos = (laboratorios) => {
     setCursos([])
 		laboratorios.map(async(lab) => {
@@ -17,6 +21,16 @@ export const useMatricula = () => {
 		});
 	};
 
+	const router = useRouter();
 
-	return { cursos, getCursos };
+	const addMatricula = async (matricula) => {
+		setLoading(true);
+		await addDoc(collection(db, "matriculas"), matricula).then(() => {
+			toast.success("Alumno agregado correctamente");
+			setLoading(false);
+			router.push(`/alumno`);
+		});
+	}
+
+	return { cursos, getCursos, addMatricula, loading };
 };

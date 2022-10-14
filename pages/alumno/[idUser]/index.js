@@ -1,15 +1,16 @@
 import { Breadcrumbs, Button, Radio } from "@material-tailwind/react";
-import { BookmarkBook, Check, HomeSimpleDoor } from "iconoir-react";
+import { BookmarkBook, Check, HomeSimpleDoor, SaveFloppyDisk } from "iconoir-react";
 import Link from "next/link";
 import { useState } from "react";
 import { AlumnoLayout } from "../../../components/Layout/alumno/AlumnoLayout";
+import { Loading } from "../../../components/Loading/Loading";
 import { Week } from "../../../components/Week/Week";
 import { useMatricula } from "../../../hook/alumno/useMatricula";
 
 export default function Matricula({ alumno }) {
 	const { laboratorios } = alumno[0];
 
-	const { cursos, getCursos } = useMatricula();
+	const { cursos, getCursos, loading, addMatricula } = useMatricula();
 
 	const [grupoCurso, setGrupoCurso] = useState([])
 	
@@ -26,6 +27,14 @@ export default function Matricula({ alumno }) {
 			const newGrupoCurso = grupoCurso.filter((c) => c.curso !== curso)
 			setGrupoCurso([...newGrupoCurso, grupoAlumno]);
 		}
+	}
+
+	const onSubmit = async () => {
+		const matricula = {
+			...alumno[0],
+			laboratorios: grupoCurso,
+		};
+		await addMatricula(matricula);
 	}
 	
 	return (
@@ -91,6 +100,26 @@ export default function Matricula({ alumno }) {
 					</div>
 				</div>
 				<Week cursos={grupoCurso} />
+				<div className="flex justify-center my-4">
+					<Button
+						className="w-[100] flex gap-2"
+						type="button"
+						disabled={loading}
+						onClick={onSubmit}
+					>
+						{!loading ? (
+							<>
+								<SaveFloppyDisk />
+								Guardar Matricula{" "}
+							</>
+						) : (
+							<>
+								<Loading />
+								Guardando...
+							</>
+						)}
+					</Button>
+				</div>
 			</div>
 		</AlumnoLayout>
 	);
