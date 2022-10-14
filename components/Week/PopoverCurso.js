@@ -5,11 +5,11 @@ export const PopoverCurso = ({ data }) => {
 	const { curso, docente, nombre:grupo, color} = data;
 
 	const getContrastYIQ = (hexcolor) => {
-		const r = parseInt(hexcolor.substr(0, 2), 16);
-		const g = parseInt(hexcolor.substr(2, 2), 16);
-		const b = parseInt(hexcolor.substr(4, 2), 16);
+		const r = parseInt(hexcolor.substr(1, 2), 16);
+		const g = parseInt(hexcolor.substr(3, 2), 16);
+		const b = parseInt(hexcolor.substr(5, 2), 16);
 		const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-		return yiq >= 128 ? "#fff" : "#000";
+		return yiq >= 128 ? "#000" : "#fff";
 	}
 
 	return (
