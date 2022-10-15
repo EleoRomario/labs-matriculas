@@ -7,7 +7,7 @@ import { Loading } from "../../../components/Loading/Loading";
 import { Week } from "../../../components/Week/Week";
 import { useMatricula } from "../../../hook/alumno/useMatricula";
 
-export default function Matricula({ alumno }) {
+export default function Matricula({ alumno, matriculas }) {
 	const { laboratorios } = alumno[0];
 
 	const { cursos, getCursos, loading, addMatricula } = useMatricula();
@@ -15,6 +15,8 @@ export default function Matricula({ alumno }) {
 	const [grupoCurso, setGrupoCurso] = useState([])
 	
 	const changeGrupo = (grupo,curso,color) => {
+		console.log("🚀 ~ file: index.js ~ line 18 ~ changeGrupo ~ grupo", grupo)
+		console.log("🚀 ~ file: index.js ~ line 18 ~ changeGrupo ~ curso", curso)
 		const exits = grupoCurso.find((c) => c.curso === curso)
 		const grupoAlumno = {
 			...grupo,
@@ -133,12 +135,17 @@ export const getServerSideProps = async (context) => {
 	const res = await fetch(
 		`${process.env.API_URL}/api/laboratorios/alumno/${idUser}`
 	);
+	const resMatriculas = await fetch(
+		`${process.env.API_URL}/api/matriculas`
+	);
+	const matriculas = await resMatriculas.json();
 	const alumno = await res.json();
 
 	return {
 		props: {
 			idUser,
 			alumno,
+			matriculas,
 		},
 	};
 };
