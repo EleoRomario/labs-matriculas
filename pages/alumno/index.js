@@ -1,7 +1,19 @@
-import { Alert, Button, Popover, PopoverContent, PopoverHandler } from "@material-tailwind/react";
-import { BookmarkBook, PasteClipboard, Trash } from "iconoir-react";
+import {
+	Alert,
+	Button,
+	Dialog,
+	Popover,
+	PopoverContent,
+	PopoverHandler,
+} from "@material-tailwind/react";
+import {
+	BookmarkBook,
+	PasteClipboard,
+	Trash,
+	WarningTriangleOutline,
+} from "iconoir-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../auth/AuthContext";
 import { AlumnoLayout } from "../../components/Layout/alumno/AlumnoLayout";
 import { WeekView } from "../../components/Week/WeekView";
@@ -9,19 +21,61 @@ import { useMatricula } from "../../hook/alumno/useMatricula";
 
 export default function Alumno() {
 	const { alumno } = useAuthContext();
-	console.log("🚀 ~ file: index.js ~ line 11 ~ Alumno ~ alumno", alumno);
-	const { getMatricula, matricula } = useMatricula();
-	console.log(
-		"🚀 ~ file: index.js ~ line 12 ~ Alumno ~ matricula",
-		matricula
-	);
+	const { getMatricula, matricula, deleteMatricula } = useMatricula();
 
 	useEffect(() => {
 		getMatricula(alumno.uid);
-	}, []);
+	}, [matricula]);
+	const [open, setOpen] = useState(false);
+	const [idUser, setIdMatricula] = useState(null);
+
+	const onDelete = async (id) => {
+		await deleteMatricula(id);
+	};
 
 	return (
 		<AlumnoLayout>
+			<Dialog
+				open={open}
+				handler={() => {
+					setOpen(!open);
+					setIdMatricula(null);
+				}}
+				animate={{
+					mount: { scale: 1, y: 0 },
+					unmount: { scale: 0.9, y: -100 },
+				}}
+				className="p-4 flex flex-col gap-3 items-center"
+			>
+				<div className="flex gap-2 flex-row items-center">
+					<WarningTriangleOutline color="red" className="" />
+					<p>¿Estás seguro de eliminar este curso?</p>
+				</div>
+				<div className="flex justify-end gap-2 mt-4">
+					<Button
+						variant="outlined"
+						color="gray"
+						size="sm"
+						onClick={() => {
+							setOpen(!open);
+							setIdMatricula(null);
+						}}
+					>
+						Cancelar
+					</Button>
+					<Button
+						color="red"
+						size="sm"
+						onClick={() => {
+							onDelete(idUser);
+							setOpen(!open);
+							setIdMatricula(null);
+						}}
+					>
+						Eliminar
+					</Button>
+				</div>
+			</Dialog>
 			{matricula !== undefined ? (
 				<div className="border border-gray-200 rounded-lg w-full p-2 overflow-y-scroll flex flex-col gap-4">
 					<div className="flex flex-col gap-2">
@@ -29,7 +83,16 @@ export default function Alumno() {
 							<h1 className="text-gray-800 font-medium text-[1.3rem]">
 								Datos personales:
 							</h1>
-							<Button variant="outlined" color="red" className="flex gap-2 items-center">
+							<Button
+								variant="outlined"
+								color="red"
+								type="button"
+								className="flex gap-2 items-center"
+								onClick={() => {
+									setOpen(!open);
+									setIdMatricula(alumno.uid);
+								}}
+							>
 								Eliminar matricula <Trash />
 							</Button>
 						</div>
@@ -112,7 +175,7 @@ export default function Alumno() {
 						</Button>
 					</Link>
 					<p className="text-gray-500 text-lg font-light">
-						Laboratorios Matriculados
+						Aun no estas matriculado en ningun curso
 					</p>
 				</div>
 			)}

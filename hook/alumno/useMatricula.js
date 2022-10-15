@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/router";
 import randomColor from "randomcolor";
 import { useState } from "react";
@@ -44,6 +44,26 @@ export const useMatricula = () => {
 			}
 		});
 	}
+	const deleteMatricula = async (id) => {
+		const docSnap = await getDocs(collection(db, "matriculas"));
 
-	return { cursos, getCursos, addMatricula, loading, getMatricula, matricula };
+		docSnap.forEach(async (docLab) => {
+			if (docLab.data().id === id) {
+				await deleteDoc(doc(db, "matriculas", docLab.id)).then(() => {
+					toast.success("Matricula eliminado correctamente");
+					router.push(`/alumno`);
+				});
+			}
+		});
+	}
+
+	return {
+		cursos,
+		getCursos,
+		addMatricula,
+		loading,
+		getMatricula,
+		matricula,
+		deleteMatricula,
+	};
 };
