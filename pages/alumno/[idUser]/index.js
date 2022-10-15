@@ -37,6 +37,7 @@ export default function Matricula({ alumno }) {
 		await addMatricula(matricula);
 	}
 	
+
 	return (
 		<AlumnoLayout>
 			<Breadcrumbs fullWidth>

@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useRouter } from "next/router";
 import randomColor from "randomcolor";
 import { useState } from "react";
@@ -32,5 +32,18 @@ export const useMatricula = () => {
 		});
 	}
 
-	return { cursos, getCursos, addMatricula, loading };
+	const [matricula, setMatricula] = useState()
+
+	const getMatricula = async (id) => {
+		const docSnap = await getDocs(collection(db, "matriculas"));
+
+		docSnap.forEach(async (docLab) => {
+			if (docLab.data().id === id) {
+				const docSnap = await getDoc(doc(db, "matriculas", docLab.id));
+				setMatricula(docSnap.data());
+			}
+		});
+	}
+
+	return { cursos, getCursos, addMatricula, loading, getMatricula, matricula };
 };
