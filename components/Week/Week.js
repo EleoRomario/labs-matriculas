@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { dias, horas, horasFin, horasInicio } from "../../utils/week";
+import { Cruze } from "./Cruze";
 import { PopoverCurso } from "./PopoverCurso";
 
 export const Week = ({ cursos }) => {
@@ -52,8 +54,18 @@ export const Week = ({ cursos }) => {
 
 	const addDia = (dia, horai, horaf, curso) => {
 		const dHora = [...matrix];
-		dHora[horai][dia] = <PopoverCurso data={curso} />;
-		dHora[horaf][dia] = <PopoverCurso data={curso} />;
+		if (dHora[horai][dia] !== null) {
+			dHora[horai][dia] = <Cruze />;
+			dHora[horaf][dia] = <PopoverCurso data={curso} />;
+			toast.error("Cruze de horarios");
+		}else if (dHora[horaf][dia] !== null) {
+			dHora[horai][dia] = <PopoverCurso data={curso} />;
+			dHora[horaf][dia] = <Cruze />;
+			toast.error("Cruze de horarios");
+		}else{
+			dHora[horai][dia] = <PopoverCurso data={curso} />;
+			dHora[horaf][dia] = <PopoverCurso data={curso} />;
+		}
 		setMatrix(dHora);
 	};
 	const deleteDia = (dia, horai, horaf) => {
