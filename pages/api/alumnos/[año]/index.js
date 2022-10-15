@@ -15,7 +15,6 @@ export default function handler (req, res) {
           ...doc.data()
         })
       })
-      console.log("🚀 ~ file: index.js ~ line 12 ~ .then ~ alumnos", alumnos)
       res.status(200).json(alumnos)
     })
 }
